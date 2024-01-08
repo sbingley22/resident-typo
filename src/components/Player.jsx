@@ -2,13 +2,29 @@ import { useFrame } from "@react-three/fiber"
 import { useRef } from "react"
 import { useKeyboardControls } from "@react-three/drei"
 import * as THREE from "three"
+import Pathfinding from 'pathfinding'
 
-const Player = (props) => {
+const Player = ({ position, grid }) => {
   const ref = useRef()
   const [, getKeys] = useKeyboardControls()
 
+  // Pathfinding
+  const finder = new Pathfinding.AStarFinder({
+    allowDiagonal: true,
+    dontCrossCorners: true,
+  })
+  const findPath = (start, end) => {
+    const gridClone = grid.clone()
+    const path = finder.findPath(start[0], start[1], end[0], end[1], gridClone)
+    return path
+  }
+
   useFrame((state, delta) => {
     const { forward, backward, left, right, jump, interact } = getKeys()
+
+    const movement = () => {
+
+    }
     
     const updateCamera = () => {
       const camPos = new THREE.Vector3(
@@ -27,11 +43,15 @@ const Player = (props) => {
 
   })
   return (
-    <group ref={ref} position={props.position}>
+    <group 
+      ref={ref} 
+      position={position}
+      name="player"
+    >
       <mesh 
         receiveShadow 
         castShadow
-        position={[0,0.5,0]}
+        position={[0.5,0.5,0.5]}
       >
         <boxGeometry args={[0.5,1,0.5]} />
         <meshStandardMaterial color="purple" />
@@ -39,5 +59,6 @@ const Player = (props) => {
     </group>
   )
 }
+
 
 export default Player
