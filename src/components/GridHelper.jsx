@@ -13,14 +13,14 @@ const GridHelper = ({ grid, gridSize }) => {
       node.map( ( n, x ) => (
         <group
           key={y+":"+x}
-          position={[n.x,0,n.y]}
+          position={[n.x*gridSize,0,n.y*gridSize]}
         >
           <mesh
             receiveShadow
             rotation-x={-Math.PI / 2} 
             position={[gridSize/2, 0, gridSize/2]}
           >
-            <planeGeometry  />
+            <planeGeometry args={[gridSize,gridSize]} />
             <meshStandardMaterial color={n.walkable? "green" : "red"} />
           </mesh>
         </group>

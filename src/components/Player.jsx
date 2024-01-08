@@ -51,7 +51,7 @@ const Player = ({ position, grid }) => {
       <mesh 
         receiveShadow 
         castShadow
-        position={[0.5,0.5,0.5]}
+        position={[0.25,0.5,0.25]}
       >
         <boxGeometry args={[0.5,1,0.5]} />
         <meshStandardMaterial color="purple" />

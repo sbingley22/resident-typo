@@ -3,7 +3,7 @@ import { useRef } from "react"
 import * as THREE from "three"
 import Pathfinding from 'pathfinding'
 
-const Enemy = ({ position, grid }) => {
+const Enemy = ({ position, grid, gridSize }) => {
   const ref = useRef()
   const playerRef = useRef(null)
   const { scene } = useThree();
@@ -13,10 +13,22 @@ const Enemy = ({ position, grid }) => {
     allowDiagonal: true,
     dontCrossCorners: true,
   })
+
   const findPath = (start, end) => {
     const gridClone = grid.clone()
+    // Convert to grid size integers
+    start[0] = Math.round(start[0]/gridSize)
+    start[1] = Math.round(start[1]/gridSize)
+    end[0] = Math.round(end[0]/gridSize)
+    end[1] = Math.round(end[1]/gridSize)
+    
+    gridClone.setWalkableAt(start[0], start[1], true)
     const path = finder.findPath(start[0], start[1], end[0], end[1], gridClone)
     return path
+  }
+
+  const convertGridToWorld = (coord) => {
+    return [coord[0]*gridSize, coord[1]*gridSize]
   }
 
   const findSceneObject = (name) => {
@@ -37,20 +49,19 @@ const Enemy = ({ position, grid }) => {
       const pos = ref.current.position
       const playerPos = playerRef.current.position
       const dist = pos.distanceTo(playerPos)
-      if (dist < 0.5) return
+      if (dist < 0.75) return
 
       const path = findPath(
-        [Math.round(pos.x),
-        Math.round(pos.z)], 
-        [Math.round(playerPos.x), 
-        Math.round(playerPos.z)]
+        [pos.x,
+        pos.z], 
+        [playerPos.x, 
+        playerPos.z]
       )
-
-      if (path.length < 3) return
-      console.log(grid)
-      //console.log(path[0], path[1])
-      const speed = 0.01
-      const targetPosition = new THREE.Vector3(path[1][0], 0, path[1][1])
+      
+      if (path.length < 2) return
+      const nextStep = convertGridToWorld(path[1])
+      const speed = 0.04
+      const targetPosition = new THREE.Vector3(nextStep[0], 0, nextStep[1])
       const direction = targetPosition.sub(pos)
       direction.normalize().multiplyScalar(speed)
       const newPosition = pos.add(direction)
@@ -69,7 +80,7 @@ const Enemy = ({ position, grid }) => {
       <mesh 
         receiveShadow 
         castShadow
-        position={[0.5,0.5,0.5]}
+        position={[0.25,0.5,0.25]}
       >
         <boxGeometry args={[0.5,1,0.5]} />
         <meshStandardMaterial color="red" />

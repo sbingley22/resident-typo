@@ -1,10 +1,10 @@
 
 
-const Ground = ({ position, size, gridSize }) => {
+const Ground = ({ position, size }) => {
   const meshPosition = [
-    (size[0]/2) * gridSize,
+    size[0]/2,
     0,
-    (size[1]/2) * gridSize,
+    size[1]/2,
   ]
   return (
     <group

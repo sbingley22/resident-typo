@@ -10,8 +10,8 @@ import { useFrame, useThree } from "@react-three/fiber"
 
 const Map = () => {
   const map = {
-    size: [8,8],
-    gridSize: 1
+    size: [16,16],
+    gridSize: .5
   }
 
   const boxes = [
@@ -43,7 +43,7 @@ const Map = () => {
     },
   ]
 
-  const staticGrid = new Pathfinding.Grid(map.size[0]*map.gridSize, map.size[1]*map.gridSize)
+  const staticGrid = new Pathfinding.Grid(map.size[0], map.size[1])
 
   const finder = new Pathfinding.AStarFinder({
     allowDiagonal: true,
@@ -51,6 +51,10 @@ const Map = () => {
   })
 
   const updateGrid = (x1,x2,y1,y2, grid) => {
+    x1 = Math.round(x1/map.gridSize)
+    x2 = Math.round(x2/map.gridSize)
+    y1 = Math.round(y1/map.gridSize)
+    y2 = Math.round(y2/map.gridSize)
     for (let x = x1; x < x2; x++) {
       for (let y = y1; y < y2; y++) {
         grid.setWalkableAt(x, y, false)
@@ -83,16 +87,16 @@ const Map = () => {
     objs.forEach( o => {
       const pos = o.position
       dynamic.push([
-        Math.round(pos.x),
-        Math.round(pos.x + map.gridSize),
-        Math.round(pos.z),
-        Math.round(pos.z + map.gridSize),
+        pos.x,
+        pos.x + map.gridSize,
+        pos.z,
+        pos.z + map.gridSize,
       ])
     })
     return dynamic
   }
 
-  const grid = useRef(staticGrid)
+  const [grid, setGrid] = useState(staticGrid)
   const enemiesRef = useRef(null)
 
   const findPath = (start, end) => {
@@ -108,12 +112,13 @@ const Map = () => {
     // update grid dynamically
     const updateDynamicGrid = () => {
       // reset dyn grid back to static
-      grid.current = staticGrid.clone()
+      const gridClone = staticGrid.clone()
       const dynObjs = getDynamicObjects(enemiesRef.current)
       dynObjs.forEach( obj => {
-        updateGrid(obj[0],obj[1],obj[2],obj[3], grid.current)
+        updateGrid(obj[0],obj[1],obj[2],obj[3], gridClone)
       })
-      //console.log(grid.current)
+      setGrid(gridClone)
+      //console.log(gridClone)
     }
     updateDynamicGrid()
   })
@@ -130,25 +135,27 @@ const Map = () => {
         <Enemy
           key={enemy.id}
           position={enemy.pos}
-          grid={grid.current}
+          grid={grid}
+          gridSize={map.gridSize}
         />
       ))}
             
-      {/* <Ground size={map.size} position={[0, 0, 0]} gridSize={map.gridSize} /> */}
-      <GridHelper grid={grid.current} gridSize={map.gridSize} />
+      {/* <Ground size={map.size} position={[0, 0, 0]} /> */}
+      <GridHelper grid={grid} gridSize={map.gridSize} />
 
       { boxes.map( (box, index) => (
         <Box 
           key={index}
           position={[
-            (box.pos[0]*map.gridSize),
+            box.pos[0],
             box.pos[1],
-            (box.pos[2]*map.gridSize),
+            box.pos[2],
           ]}
           size={box.size}
           color={box.color}
         />
       ))}
+
     </>
   )
 }
