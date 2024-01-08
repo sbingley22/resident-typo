@@ -17,13 +17,23 @@ const Map = () => {
   const boxes = [
     {
       color: "yellow",
-      pos: [2, 0, 1],
-      size: [1,1,4],
+      pos: [1, 0, 1],
+      size: [1,1,3],
+    },
+    {
+      color: "yellow",
+      pos: [3, 0, 3],
+      size: [1,1,2],
     },
     {
       color: "pink",
       pos: [5, 0, 7],
       size: [2,1,1],
+    },
+    {
+      color: "pink",
+      pos: [7, 0, 0],
+      size: [1,1,8],
     },
     {
       color: "grey",
@@ -129,7 +139,11 @@ const Map = () => {
       <pointLight intensity={10} position={[5,5,5]} />
       <pointLight intensity={10} position={[20,5,20]} />
 
-      <Player position={[4,0,2]} />
+      <Player 
+        position={[4,0,2]} 
+        grid={staticGrid}
+        gridSize={map.gridSize}
+      />
 
       { enemies.map( (enemy) => (
         <Enemy
