@@ -1,12 +1,18 @@
 import { useFrame, useThree } from "@react-three/fiber"
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import * as THREE from "three"
 import Pathfinding from 'pathfinding'
+import { Zombie } from "./models/Zombie"
 
 const Enemy = ({ position, grid, gridSize }) => {
   const ref = useRef()
+  const meshRef = useRef()
   const playerRef = useRef(null)
   const { scene } = useThree();
+
+  const [animName, setAnimName] = useState("Idle")
+  const savedPath = useRef(null)
+  const pathFrames = useRef(Math.round(Math.random()*60))
   
   // Pathfinding
   const finder = new Pathfinding.AStarFinder({
@@ -41,33 +47,73 @@ const Enemy = ({ position, grid, gridSize }) => {
     return object
   }
 
+  const updateAnimation = (name) => {
+    setAnimName(name)
+  }
+
   useFrame((state, delta) => {
     if (playerRef.current == null) playerRef.current = findSceneObject("player")
     //console.log(playerRef.current)
-    
-    const movement = () => {
-      const pos = ref.current.position
-      const playerPos = playerRef.current.position
-      const dist = pos.distanceTo(playerPos)
-      if (dist < 0.75) return
 
+    const rotateTo = (direction) => {
+      // Rotate to the correct direction
+      const angle = Math.atan2(direction.x, direction.z);
+    
+      // Smooth rotation with slerp
+      const currentRotation = meshRef.current.quaternion.clone();
+      const targetRotation = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, angle, 0));
+      const lerpedRotation = new THREE.Quaternion().copy(currentRotation).slerp(targetRotation, 0.1);
+    
+      // Set the rotation of the body
+      meshRef.current.quaternion.copy(lerpedRotation);
+    }
+    
+    const pathfiner = (pos, playerPos) => {
       const path = findPath(
         [pos.x,
         pos.z], 
         [playerPos.x, 
         playerPos.z]
       )
+      return path
+    }
+    const movement = () => {
+      const pos = ref.current.position
+      const playerPos = playerRef.current.position
+      const dist = pos.distanceTo(playerPos)
+      if (dist < 0.75) return false
+
+      savedPath.current
+
+      // Only do pathfinding once every 60 frames as its expensive
+      pathFrames.current += 1
+      if (pathFrames.current > 10) {
+        pathFrames.current = 0
+        savedPath.current = pathfiner(pos, playerPos)
+      }
       
-      if (path.length < 2) return
-      const nextStep = convertGridToWorld(path[1])
+      //console.log(savedPath.current)
+      if (savedPath.current == null) return false
+      if (savedPath.current.length < 2) return false
+
+      const nextStep = convertGridToWorld(savedPath.current[1])
       const speed = 0.04
       const targetPosition = new THREE.Vector3(nextStep[0], 0, nextStep[1])
       const direction = targetPosition.sub(pos)
       direction.normalize().multiplyScalar(speed)
       const newPosition = pos.add(direction)
       ref.current.position.copy(newPosition)
+
+      rotateTo(direction)
+      return true
     }
-    movement()
+    const moving = movement()
+    if (moving) {
+      updateAnimation("Staggering")
+    }
+    else {
+      updateAnimation("Idle")
+    }
 
   })
 
@@ -77,14 +123,14 @@ const Enemy = ({ position, grid, gridSize }) => {
       position={position}
       name="enemy"
     >
-      <mesh 
-        receiveShadow 
-        castShadow
-        position={[0.25,0.5,0.25]}
+      <group
+        ref={meshRef}
+        position={[0.25,0,0.25]}
       >
-        <boxGeometry args={[0.5,1,0.5]} />
-        <meshStandardMaterial color="red" />
-      </mesh>
+        <Zombie 
+          animName={animName}
+        />
+      </group>
     </group>
   )
 }

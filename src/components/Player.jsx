@@ -1,13 +1,16 @@
 import { useFrame, useThree } from "@react-three/fiber"
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import { useKeyboardControls } from "@react-three/drei"
 import * as THREE from "three"
-import Pathfinding from 'pathfinding'
+import { Jill } from "./models/Jill"
 
 const Player = ({ position, grid, gridSize }) => {
   const ref = useRef()
+  const meshRef = useRef()
   const enemiesRef = useRef(null)
   const [, getKeys] = useKeyboardControls()
+
+  const [animName, setAnimName] = useState("Idle")
 
   const { scene } = useThree();
   const findSceneObjects = (name) => {
@@ -51,7 +54,6 @@ const Player = ({ position, grid, gridSize }) => {
         // if player is moving away then we shouldn't prevent him from moving
         const directionMoving = new THREE.Vector3().subVectors(playerPos, playerTarget).normalize()
         const directionEnemy = new THREE.Vector3().subVectors(playerPos, enemyPos).normalize()
-        console.log(directionMoving)
         const distance = directionMoving.distanceTo(directionEnemy)
         if (distance < 0.5) canMove = false
         return
@@ -68,10 +70,27 @@ const Player = ({ position, grid, gridSize }) => {
     return true
   }
 
+  const updateAnimation = (name) => {
+    setAnimName(name)
+  }
+
   useFrame((state, delta) => {
     if (enemiesRef.current == null) enemiesRef.current = findSceneObjects("enemy")
 
     const { forward, backward, left, right, jump, interact } = getKeys()
+
+    const rotateTo = (direction) => {
+      // Rotate to the correct direction
+      const angle = Math.atan2(direction.x, direction.z);
+    
+      // Smooth rotation with slerp
+      const currentRotation = meshRef.current.quaternion.clone();
+      const targetRotation = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, angle, 0));
+      const lerpedRotation = new THREE.Quaternion().copy(currentRotation).slerp(targetRotation, 0.1);
+    
+      // Set the rotation of the body
+      meshRef.current.quaternion.copy(lerpedRotation);
+    }
 
     const movement = () => {
       let dx = 0
@@ -115,10 +134,14 @@ const Player = ({ position, grid, gridSize }) => {
       }
 
       ref.current.position.copy(target)
-
+      const direction = new THREE.Vector3(dx,0,dz)
+      rotateTo(direction)
+      return true
     }
-    movement()
-    
+    const moving = movement()
+    if (moving) updateAnimation("Jogging")
+    else updateAnimation("Idle")
+
     const updateCamera = () => {
       const camPos = new THREE.Vector3(
         ref.current.position.x,
@@ -141,14 +164,14 @@ const Player = ({ position, grid, gridSize }) => {
       position={position}
       name="player"
     >
-      <mesh 
-        receiveShadow 
-        castShadow
-        position={[0.25,0.5,0.25]}
+      <group
+        ref={meshRef}
+        position={[0.25,0,0.25]}
       >
-        <boxGeometry args={[0.5,1,0.5]} />
-        <meshStandardMaterial color="purple" />
-      </mesh>
+        <Jill 
+          animName={animName}
+        />
+      </group>
     </group>
   )
 }

@@ -10,7 +10,7 @@ import { useFrame, useThree } from "@react-three/fiber"
 
 const Map = () => {
   const map = {
-    size: [16,16],
+    size: [48,48],
     gridSize: .5
   }
 
@@ -154,8 +154,8 @@ const Map = () => {
         />
       ))}
             
-      {/* <Ground size={map.size} position={[0, 0, 0]} /> */}
-      <GridHelper grid={grid} gridSize={map.gridSize} />
+      <Ground position={[9, 0, 9]} scale={7} />
+      <GridHelper grid={grid} gridSize={map.gridSize} transparency={0.5} />
 
       { boxes.map( (box, index) => (
         <Box 

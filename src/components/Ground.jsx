@@ -1,23 +1,20 @@
+import { Model } from "./models/Ground-concrete"
 
-
-const Ground = ({ position, size }) => {
+const Ground = ({ position, scale }) => {
   const meshPosition = [
-    size[0]/2,
+    scale/2,
     0,
-    size[1]/2,
+    scale/2,
   ]
   return (
     <group
       position={position}
     >
-      <mesh
+      <Model 
         receiveShadow
         position={meshPosition}
-        rotation-x={-Math.PI / 2}
-      >
-        <planeGeometry args={size} />
-        <meshStandardMaterial color="green" />
-      </mesh>
+        scale={scale}
+      />
     </group>
   )
 }

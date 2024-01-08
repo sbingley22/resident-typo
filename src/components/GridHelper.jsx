@@ -1,6 +1,6 @@
-import Pathfinding from 'pathfinding'
 
-const GridHelper = ({ grid, gridSize }) => {
+
+const GridHelper = ({ grid, gridSize, transparency }) => {
 
   // grid.nodes.map( (node, y) => (
   //   node.map( ( n, x ) => (
@@ -13,7 +13,7 @@ const GridHelper = ({ grid, gridSize }) => {
       node.map( ( n, x ) => (
         <group
           key={y+":"+x}
-          position={[n.x*gridSize,0,n.y*gridSize]}
+          position={[n.x*gridSize,0.1,n.y*gridSize]}
         >
           <mesh
             receiveShadow
@@ -21,7 +21,11 @@ const GridHelper = ({ grid, gridSize }) => {
             position={[gridSize/2, 0, gridSize/2]}
           >
             <planeGeometry args={[gridSize,gridSize]} />
-            <meshStandardMaterial color={n.walkable? "green" : "red"} />
+            <meshStandardMaterial 
+              color={n.walkable? "green" : "red"} 
+              opacity={transparency}
+              transparent
+            />
           </mesh>
         </group>
       ))
