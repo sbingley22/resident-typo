@@ -1,6 +1,14 @@
 import * as THREE from "three"
+import { useTexture } from "@react-three/drei"
+import dirt from "../assets/dirt.jpg"
+import wall from "../assets/wall.jpg"
 
-const Box = ({position, size, color}) => {
+const Box = ({position, size, color, type}) => {
+  let texture = null  
+  if (type == "wall") texture = useTexture(wall)
+  else if (type == "wall2") texture = useTexture(dirt)
+  if (texture != null ) texture.wrapS = texture.wrapT = THREE.RepeatWrapping
+  
   const meshPosition = [
     size[0]/2,
     size[1]/2,
@@ -11,16 +19,33 @@ const Box = ({position, size, color}) => {
     <group
       position={position}
     >
-      <mesh 
+      { type !== "invisible" && <mesh 
         receiveShadow 
         castShadow
         position={meshPosition}
       >
         <boxGeometry args={size} />
-        <meshStandardMaterial color={color} transparent  opacity={0.5} />
-      </mesh>
+        { type == "solid" ? 
+          <meshStandardMaterial 
+            color={color} 
+          />
+          :
+          <meshStandardMaterial 
+            color={color} 
+            map={texture}
+            map-repeat={[1,1]}
+          />
+        }
+      </mesh> }
     </group>
   )
+}
+
+Box.defaultProps = {
+  position: [0,0,0],
+  size: [1,1,1],
+  color: "white",
+  type: "solid",
 }
 
 export default Box

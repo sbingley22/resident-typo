@@ -36,6 +36,12 @@ const Enemy = ({ position, grid, gridSize }) => {
   const convertGridToWorld = (coord) => {
     return [coord[0]*gridSize, coord[1]*gridSize]
   }
+  const convertWorldToGrid = (coord) => {
+    return [
+      Math.round(coord[0]/gridSize), 
+      Math.round(coord[1]/gridSize)
+    ]
+  }
 
   const findSceneObject = (name) => {
     let object = undefined
@@ -78,25 +84,31 @@ const Enemy = ({ position, grid, gridSize }) => {
       return path
     }
     const movement = () => {
+      // get distance between this and target
       const pos = ref.current.position
       const playerPos = playerRef.current.position
       const dist = pos.distanceTo(playerPos)
       if (dist < 0.75) return false
 
-      savedPath.current
 
-      // Only do pathfinding once every 60 frames as its expensive
+      // Only do pathfinding once every n frames
       pathFrames.current += 1
-      if (pathFrames.current > 10) {
+      if (pathFrames.current > -1) {
         pathFrames.current = 0
         savedPath.current = pathfiner(pos, playerPos)
       }
       
-      //console.log(savedPath.current)
       if (savedPath.current == null) return false
       if (savedPath.current.length < 2) return false
 
-      const nextStep = convertGridToWorld(savedPath.current[1])
+      // Pop off the path coord when it has been reached
+      const posInGrid = convertWorldToGrid([pos.x,pos.z])
+      if (posInGrid[0] == savedPath.current[0][0] && posInGrid[1] == savedPath.current[0][1]) {
+        savedPath.current = savedPath.current.slice(1)
+      }
+
+      // Take a step towards the next path position
+      const nextStep = convertGridToWorld(savedPath.current[0])
       const speed = 0.04
       const targetPosition = new THREE.Vector3(nextStep[0], 0, nextStep[1])
       const direction = targetPosition.sub(pos)

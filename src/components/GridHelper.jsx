@@ -1,6 +1,6 @@
 
-
-const GridHelper = ({ grid, gridSize, transparency }) => {
+const GridHelper = ({ grid, gridSize }) => {
+  // This helper is very slow in larger grids!!!
 
   // grid.nodes.map( (node, y) => (
   //   node.map( ( n, x ) => (
@@ -13,7 +13,7 @@ const GridHelper = ({ grid, gridSize, transparency }) => {
       node.map( ( n, x ) => (
         <group
           key={y+":"+x}
-          position={[n.x*gridSize,0.1,n.y*gridSize]}
+          position={[n.x*gridSize,0.01,n.y*gridSize]}
         >
           <mesh
             receiveShadow
@@ -23,8 +23,8 @@ const GridHelper = ({ grid, gridSize, transparency }) => {
             <planeGeometry args={[gridSize,gridSize]} />
             <meshStandardMaterial 
               color={n.walkable? "green" : "red"} 
-              opacity={transparency}
-              transparent
+              // opacity={transparency}
+              // transparent
             />
           </mesh>
         </group>

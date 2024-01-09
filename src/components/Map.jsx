@@ -8,57 +8,37 @@ import Enemy from './Enemy'
 import GridHelper from './GridHelper'
 import { useFrame, useThree } from "@react-three/fiber"
 
-const Map = () => {
-  const map = {
-    size: [48,48],
-    gridSize: .5
-  }
+const Map = ({map}) => {
 
-  const boxes = [
-    {
-      color: "yellow",
-      pos: [1, 0, 1],
-      size: [1,1,3],
-    },
-    {
-      color: "yellow",
-      pos: [3, 0, 3],
-      size: [1,1,2],
-    },
-    {
-      color: "pink",
-      pos: [5, 0, 7],
-      size: [2,1,1],
-    },
-    {
-      color: "pink",
-      pos: [7, 0, 0],
-      size: [1,1,8],
-    },
-    {
-      color: "grey",
-      pos: [2, 0, 0],
-      size: [4,1,1],
-    },
-  ]
+  const boxes = []
+
+  map.items.forEach( item => {
+    if (item.name == "wall"){
+      boxes.push({
+        type: "wall",
+        pos: [
+          item.pos[1]*map.gridSize, 
+          0, 
+          item.pos[0]*map.gridSize,
+        ],
+        rotation: item.rotation,
+        size: [2, 1.75, 1]
+      })
+    }
+  })
 
   const enemies = [
-    {
-      id: "0",
-      pos: [0,0,0]
-    },
-    {
-      id: "1",
-      pos: [1,0,2]
-    },
+    // {
+    //   id: "0",
+    //   pos: [20,0,10]
+    // },
+    // {
+    //   id: "1",
+    //   pos: [16,0,8]
+    // },
   ]
 
   const staticGrid = new Pathfinding.Grid(map.size[0], map.size[1])
-
-  const finder = new Pathfinding.AStarFinder({
-    allowDiagonal: true,
-    dontCrossCorners: true,
-  })
 
   const updateGrid = (x1,x2,y1,y2, grid) => {
     x1 = Math.round(x1/map.gridSize)
@@ -71,14 +51,24 @@ const Map = () => {
       }
     }
   }
+  const setWalkableFromMap = () => {
+    for (let x = 0; x < staticGrid.nodes[0].length; x++) {
+      for (let y = 0; y < staticGrid.nodes.length; y++) {
+        if (map.grid[y][x].id != null) {
+          staticGrid.setWalkableAt(x, y, false)
+        }
+      }
+    }
+  }
+  setWalkableFromMap()
 
-  boxes.forEach( (box) => {
-    const x1 = box.pos[0]
-    const x2 = box.pos[0] + box.size[0]
-    const y1 = box.pos[2]
-    const y2 = box.pos[2] + box.size[2]
-    updateGrid(x1,x2,y1,y2, staticGrid)
-  })
+  // boxes.forEach( (box) => {
+  //   const x1 = box.pos[0]
+  //   const x2 = box.pos[0] + box.size[0]
+  //   const y1 = box.pos[2]
+  //   const y2 = box.pos[2] + box.size[2]
+  //   updateGrid(x1,x2,y1,y2, staticGrid)
+  // })
 
   const { scene } = useThree();
   const findSceneObjects = (name) => {
@@ -90,7 +80,6 @@ const Map = () => {
     });
     return objects;
   }
-
   const getDynamicObjects = (objs) => {
     const dynamic = []
 
@@ -108,13 +97,6 @@ const Map = () => {
 
   const [grid, setGrid] = useState(staticGrid)
   const enemiesRef = useRef(null)
-
-  const findPath = (start, end) => {
-    const gridClone = grid.clone()
-    const path = finder.findPath(start[0], start[1], end[0], end[1], gridClone)
-    return path
-  }
-  //console.log(findPath([0,0],[4,2]))
   
   useFrame((state,delta) => {
     if (enemiesRef.current == null) enemiesRef.current = findSceneObjects("enemy")
@@ -128,7 +110,6 @@ const Map = () => {
         updateGrid(obj[0],obj[1],obj[2],obj[3], gridClone)
       })
       setGrid(gridClone)
-      //console.log(gridClone)
     }
     updateDynamicGrid()
   })
@@ -140,7 +121,7 @@ const Map = () => {
       <pointLight intensity={10} position={[20,5,20]} />
 
       <Player 
-        position={[4,0,2]} 
+        position={[1,0,1]} 
         grid={staticGrid}
         gridSize={map.gridSize}
       />
@@ -155,18 +136,15 @@ const Map = () => {
       ))}
             
       <Ground position={[9, 0, 9]} scale={7} />
-      <GridHelper grid={grid} gridSize={map.gridSize} transparency={0.5} />
+      <GridHelper grid={grid} gridSize={map.gridSize}/>
 
       { boxes.map( (box, index) => (
         <Box 
           key={index}
-          position={[
-            box.pos[0],
-            box.pos[1],
-            box.pos[2],
-          ]}
+          position={box.pos}
           size={box.size}
           color={box.color}
+          type={box.type}
         />
       ))}
 

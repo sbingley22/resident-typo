@@ -9,3 +9,26 @@
   width: 100vw;
   height: 100vh;
 }
+
+#map-maker {
+  margin: 0;
+  padding: 2px;
+  font-size: small;
+}
+
+#map-maker label {
+  margin: 5px;
+}
+
+#map-maker button {
+  margin: 5px;
+}
+
+#map-maker input {
+  margin: 5px;
+  width: 100px;
+}
+#map-maker input[type="number"] {
+  margin: 5px;
+  width: 50px;
+}

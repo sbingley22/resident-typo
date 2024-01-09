@@ -95,10 +95,10 @@ const Player = ({ position, grid, gridSize }) => {
     const movement = () => {
       let dx = 0
       let dz = 0
-      if (left) dx = 1
-      if (right) dx = -1
-      if (forward) dz = 1
-      if (backward) dz = -1
+      if (left) dx = -1
+      if (right) dx = 1
+      if (forward) dz = -1
+      if (backward) dz = 1
 
       if (dx == 0 && dz == 0) return
 
@@ -145,8 +145,8 @@ const Player = ({ position, grid, gridSize }) => {
     const updateCamera = () => {
       const camPos = new THREE.Vector3(
         ref.current.position.x,
-        ref.current.position.y +3,
-        ref.current.position.z -3,
+        ref.current.position.y +5,
+        ref.current.position.z +5,
       )
       state.camera.position.set(camPos.x, camPos.y, camPos.z)
       state.camera.lookAt(ref.current.position)
