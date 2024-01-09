@@ -2,13 +2,25 @@ import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid'
 
 const items = {
+  cube: {
+    color: "yellow",
+    size: [2,2],
+  },
   delete: {
     color: "grey",
     size: [1,1],
   },
-  cube: {
-    color: "yellow",
-    size: [2,2],
+  enemy: {
+    color: "red",
+    size: [1,1]
+  },
+  fileCabinet: {
+    color: "blue",
+    size: [1,1],
+  },
+  player: {
+    color: "pink",
+    size: [1,1]
   },
   wall: {
     color: "green",
@@ -17,13 +29,13 @@ const items = {
   wall2: {
     color: "brown",
     size: [1,2],
-  }
+  },
 }
 
 const MapMaker = ({ setOption, setMap }) => {
   const [name, setName] = useState("Map 1")
-  const [rows, setRows] = useState(16);
-  const [columns, setColumns] = useState(24);
+  const [rows, setRows] = useState(48);
+  const [columns, setColumns] = useState(48);
   const [grid, setGrid] = useState(initializeGrid());
   const [selectedItem, setSelectedItem] = useState("cube");
   const [hoveredSquare, setHoveredSquare] = useState(null);
