@@ -1,0 +1,1897 @@
+[
+
+{
+    "name": "Test 1",
+    "size": [
+        8,
+        8
+    ],
+    "gridSize": 0.5,
+    "grid": [
+        [
+            {
+                "color": "white",
+                "name": "wall",
+                "id": "1ab73a22-5301-45b4-928c-dbbf666aef0e",
+                "rotation": 0,
+                "placement": true,
+                "walkable": false
+            },
+            {
+                "color": "white",
+                "name": "wall",
+                "id": "1ab73a22-5301-45b4-928c-dbbf666aef0e",
+                "rotation": 0,
+                "placement": false,
+                "walkable": false
+            },
+            {
+                "color": "white",
+                "name": "wall",
+                "id": "1ab73a22-5301-45b4-928c-dbbf666aef0e",
+                "rotation": 0,
+                "placement": false,
+                "walkable": false
+            },
+            {
+                "color": "white",
+                "name": "wall",
+                "id": "1ab73a22-5301-45b4-928c-dbbf666aef0e",
+                "rotation": 0,
+                "placement": false,
+                "walkable": false
+            },
+            {
+                "color": "white",
+                "name": "wall",
+                "id": "28401c90-063b-4d6f-942a-28aad1bf0c17",
+                "rotation": 0,
+                "placement": true,
+                "walkable": false
+            },
+            {
+                "color": "white",
+                "name": "wall",
+                "id": "28401c90-063b-4d6f-942a-28aad1bf0c17",
+                "rotation": 0,
+                "placement": false,
+                "walkable": false
+            },
+            {
+                "color": "white",
+                "name": "wall",
+                "id": "28401c90-063b-4d6f-942a-28aad1bf0c17",
+                "rotation": 0,
+                "placement": false,
+                "walkable": false
+            },
+            {
+                "color": "white",
+                "name": "wall",
+                "id": "28401c90-063b-4d6f-942a-28aad1bf0c17",
+                "rotation": 0,
+                "placement": false,
+                "walkable": false
+            }
+        ],
+        [
+            {
+                "color": "white",
+                "name": "wall",
+                "id": "1ab73a22-5301-45b4-928c-dbbf666aef0e",
+                "rotation": 0,
+                "placement": false,
+                "walkable": false
+            },
+            {
+                "color": "white",
+                "name": "wall",
+                "id": "1ab73a22-5301-45b4-928c-dbbf666aef0e",
+                "rotation": 0,
+                "placement": false,
+                "walkable": false
+            },
+            {
+                "color": "white",
+                "name": "wall",
+                "id": "1ab73a22-5301-45b4-928c-dbbf666aef0e",
+                "rotation": 0,
+                "placement": false,
+                "walkable": false
+            },
+            {
+                "color": "white",
+                "name": "wall",
+                "id": "1ab73a22-5301-45b4-928c-dbbf666aef0e",
+                "rotation": 0,
+                "placement": false,
+                "walkable": false
+            },
+            {
+                "color": "white",
+                "name": "wall",
+                "id": "28401c90-063b-4d6f-942a-28aad1bf0c17",
+                "rotation": 0,
+                "placement": false,
+                "walkable": false
+            },
+            {
+                "color": "white",
+                "name": "wall",
+                "id": "28401c90-063b-4d6f-942a-28aad1bf0c17",
+                "rotation": 0,
+                "placement": false,
+                "walkable": false
+            },
+            {
+                "color": "white",
+                "name": "wall",
+                "id": "28401c90-063b-4d6f-942a-28aad1bf0c17",
+                "rotation": 0,
+                "placement": false,
+                "walkable": false
+            },
+            {
+                "color": "white",
+                "name": "wall",
+                "id": "28401c90-063b-4d6f-942a-28aad1bf0c17",
+                "rotation": 0,
+                "placement": false,
+                "walkable": false
+            }
+        ],
+        [
+            {
+                "color": "#CCCCCC",
+                "name": "wall2",
+                "id": "aeba3cab-1150-40b3-8f14-a3353ef37603",
+                "rotation": 1,
+                "placement": true,
+                "walkable": false
+            },
+            {
+                "color": "#0000FF",
+                "name": "fileCabinet",
+                "id": "2ce44e9f-b798-4053-9a13-5b2a232310fc",
+                "rotation": 1,
+                "placement": true,
+                "walkable": false
+            },
+            {
+                "color": "grey",
+                "name": "",
+                "id": null,
+                "rotation": 0,
+                "placement": false,
+                "walkable": true
+            },
+            {
+                "color": "grey",
+                "name": "",
+                "id": null,
+                "rotation": 0,
+                "placement": false,
+                "walkable": true
+            },
+            {
+                "color": "#CCCCCC",
+                "name": "wall2",
+                "id": "146d3948-08df-443f-a024-2a06290faa22",
+                "rotation": 1,
+                "placement": true,
+                "walkable": false
+            },
+            {
+                "color": "grey",
+                "name": "",
+                "id": null,
+                "rotation": 0,
+                "placement": false,
+                "walkable": true
+            },
+            {
+                "color": "#0000FF",
+                "name": "fileCabinet",
+                "id": "d8cd0aa9-9536-4298-b602-4a33194e08e3",
+                "rotation": 1,
+                "placement": true,
+                "walkable": false
+            },
+            {
+                "color": "#CCCCCC",
+                "name": "wall2",
+                "id": "1e709405-3dbd-46d7-a48f-ad0f2093db12",
+                "rotation": 1,
+                "placement": true,
+                "walkable": false
+            }
+        ],
+        [
+            {
+                "color": "#CCCCCC",
+                "name": "wall2",
+                "id": "aeba3cab-1150-40b3-8f14-a3353ef37603",
+                "rotation": 1,
+                "placement": false,
+                "walkable": false
+            },
+            {
+                "color": "grey",
+                "name": "",
+                "id": null,
+                "rotation": 0,
+                "placement": false,
+                "walkable": true
+            },
+            {
+                "color": "grey",
+                "name": "",
+                "id": null,
+                "rotation": 0,
+                "placement": false,
+                "walkable": true
+            },
+            {
+                "color": "grey",
+                "name": "",
+                "id": null,
+                "rotation": 0,
+                "placement": false,
+                "walkable": true
+            },
+            {
+                "color": "#CCCCCC",
+                "name": "wall2",
+                "id": "146d3948-08df-443f-a024-2a06290faa22",
+                "rotation": 1,
+                "placement": false,
+                "walkable": false
+            },
+            {
+                "color": "grey",
+                "name": "",
+                "id": null,
+                "rotation": 0,
+                "placement": false,
+                "walkable": true
+            },
+            {
+                "color": "grey",
+                "name": "",
+                "id": null,
+                "rotation": 0,
+                "placement": false,
+                "walkable": true
+            },
+            {
+                "color": "#CCCCCC",
+                "name": "wall2",
+                "id": "1e709405-3dbd-46d7-a48f-ad0f2093db12",
+                "rotation": 1,
+                "placement": false,
+                "walkable": false
+            }
+        ],
+        [
+            {
+                "color": "#CCCCCC",
+                "name": "wall2",
+                "id": "759abfe9-f379-4a19-8cae-c3c481e3cf3e",
+                "rotation": 1,
+                "placement": true,
+                "walkable": false
+            },
+            {
+                "color": "grey",
+                "name": "",
+                "id": null,
+                "rotation": 0,
+                "placement": false,
+                "walkable": true
+            },
+            {
+                "color": "green",
+                "name": "player",
+                "id": "1dc482af-c853-4522-b22f-5f62a70b5efe",
+                "rotation": 1,
+                "placement": true,
+                "walkable": true
+            },
+            {
+                "color": "grey",
+                "name": "",
+                "id": null,
+                "rotation": 0,
+                "placement": false,
+                "walkable": true
+            },
+            {
+                "color": "yellow",
+                "name": "pointLight",
+                "id": "4a30f49b-ea1c-4aaa-a3fe-504adb1501d2",
+                "rotation": 1,
+                "placement": true,
+                "walkable": true
+            },
+            {
+                "color": "grey",
+                "name": "",
+                "id": null,
+                "rotation": 0,
+                "placement": false,
+                "walkable": true
+            },
+            {
+                "color": "grey",
+                "name": "",
+                "id": null,
+                "rotation": 0,
+                "placement": false,
+                "walkable": true
+            },
+            {
+                "color": "#CCCCCC",
+                "name": "wall2",
+                "id": "9e1899b2-0e33-4df8-a9e3-8cf38069d927",
+                "rotation": 1,
+                "placement": true,
+                "walkable": false
+            }
+        ],
+        [
+            {
+                "color": "#CCCCCC",
+                "name": "wall2",
+                "id": "759abfe9-f379-4a19-8cae-c3c481e3cf3e",
+                "rotation": 1,
+                "placement": false,
+                "walkable": false
+            },
+            {
+                "color": "grey",
+                "name": "",
+                "id": null,
+                "rotation": 0,
+                "placement": false,
+                "walkable": true
+            },
+            {
+                "color": "grey",
+                "name": "",
+                "id": null,
+                "rotation": 0,
+                "placement": false,
+                "walkable": true
+            },
+            {
+                "color": "grey",
+                "name": "",
+                "id": null,
+                "rotation": 0,
+                "placement": false,
+                "walkable": true
+            },
+            {
+                "color": "grey",
+                "name": "",
+                "id": null,
+                "rotation": 0,
+                "placement": false,
+                "walkable": true
+            },
+            {
+                "color": "grey",
+                "name": "",
+                "id": null,
+                "rotation": 0,
+                "placement": false,
+                "walkable": true
+            },
+            {
+                "color": "grey",
+                "name": "",
+                "id": null,
+                "rotation": 0,
+                "placement": false,
+                "walkable": true
+            },
+            {
+                "color": "#CCCCCC",
+                "name": "wall2",
+                "id": "9e1899b2-0e33-4df8-a9e3-8cf38069d927",
+                "rotation": 1,
+                "placement": false,
+                "walkable": false
+            }
+        ],
+        [
+            {
+                "color": "white",
+                "name": "wall",
+                "id": "52c9f9fb-1ba0-4797-a779-56775d80e570",
+                "rotation": 0,
+                "placement": true,
+                "walkable": false
+            },
+            {
+                "color": "white",
+                "name": "wall",
+                "id": "52c9f9fb-1ba0-4797-a779-56775d80e570",
+                "rotation": 0,
+                "placement": false,
+                "walkable": false
+            },
+            {
+                "color": "white",
+                "name": "wall",
+                "id": "52c9f9fb-1ba0-4797-a779-56775d80e570",
+                "rotation": 0,
+                "placement": false,
+                "walkable": false
+            },
+            {
+                "color": "white",
+                "name": "wall",
+                "id": "52c9f9fb-1ba0-4797-a779-56775d80e570",
+                "rotation": 0,
+                "placement": false,
+                "walkable": false
+            },
+            {
+                "color": "white",
+                "name": "wall",
+                "id": "e5a09c07-9683-435c-8370-f7558be6c4e5",
+                "rotation": 0,
+                "placement": true,
+                "walkable": false
+            },
+            {
+                "color": "white",
+                "name": "wall",
+                "id": "e5a09c07-9683-435c-8370-f7558be6c4e5",
+                "rotation": 0,
+                "placement": false,
+                "walkable": false
+            },
+            {
+                "color": "white",
+                "name": "wall",
+                "id": "e5a09c07-9683-435c-8370-f7558be6c4e5",
+                "rotation": 0,
+                "placement": false,
+                "walkable": false
+            },
+            {
+                "color": "white",
+                "name": "wall",
+                "id": "e5a09c07-9683-435c-8370-f7558be6c4e5",
+                "rotation": 0,
+                "placement": false,
+                "walkable": false
+            }
+        ],
+        [
+            {
+                "color": "white",
+                "name": "wall",
+                "id": "52c9f9fb-1ba0-4797-a779-56775d80e570",
+                "rotation": 0,
+                "placement": false,
+                "walkable": false
+            },
+            {
+                "color": "white",
+                "name": "wall",
+                "id": "52c9f9fb-1ba0-4797-a779-56775d80e570",
+                "rotation": 0,
+                "placement": false,
+                "walkable": false
+            },
+            {
+                "color": "white",
+                "name": "wall",
+                "id": "52c9f9fb-1ba0-4797-a779-56775d80e570",
+                "rotation": 0,
+                "placement": false,
+                "walkable": false
+            },
+            {
+                "color": "white",
+                "name": "wall",
+                "id": "52c9f9fb-1ba0-4797-a779-56775d80e570",
+                "rotation": 0,
+                "placement": false,
+                "walkable": false
+            },
+            {
+                "color": "white",
+                "name": "wall",
+                "id": "e5a09c07-9683-435c-8370-f7558be6c4e5",
+                "rotation": 0,
+                "placement": false,
+                "walkable": false
+            },
+            {
+                "color": "white",
+                "name": "wall",
+                "id": "e5a09c07-9683-435c-8370-f7558be6c4e5",
+                "rotation": 0,
+                "placement": false,
+                "walkable": false
+            },
+            {
+                "color": "white",
+                "name": "wall",
+                "id": "e5a09c07-9683-435c-8370-f7558be6c4e5",
+                "rotation": 0,
+                "placement": false,
+                "walkable": false
+            },
+            {
+                "color": "white",
+                "name": "wall",
+                "id": "e5a09c07-9683-435c-8370-f7558be6c4e5",
+                "rotation": 0,
+                "placement": false,
+                "walkable": false
+            }
+        ]
+    ],
+    "items": [
+        {
+            "name": "wall",
+            "id": "1ab73a22-5301-45b4-928c-dbbf666aef0e",
+            "pos": [
+                0,
+                0
+            ],
+            "rotation": 0,
+            "walkable": false
+        },
+        {
+            "name": "wall",
+            "id": "28401c90-063b-4d6f-942a-28aad1bf0c17",
+            "pos": [
+                0,
+                4
+            ],
+            "rotation": 0,
+            "walkable": false
+        },
+        {
+            "name": "wall2",
+            "id": "aeba3cab-1150-40b3-8f14-a3353ef37603",
+            "pos": [
+                2,
+                0
+            ],
+            "rotation": 1,
+            "walkable": false
+        },
+        {
+            "name": "fileCabinet",
+            "id": "2ce44e9f-b798-4053-9a13-5b2a232310fc",
+            "pos": [
+                2,
+                1
+            ],
+            "rotation": 1,
+            "walkable": false
+        },
+        {
+            "name": "wall2",
+            "id": "146d3948-08df-443f-a024-2a06290faa22",
+            "pos": [
+                2,
+                4
+            ],
+            "rotation": 1,
+            "walkable": false
+        },
+        {
+            "name": "fileCabinet",
+            "id": "d8cd0aa9-9536-4298-b602-4a33194e08e3",
+            "pos": [
+                2,
+                6
+            ],
+            "rotation": 1,
+            "walkable": false
+        },
+        {
+            "name": "wall2",
+            "id": "1e709405-3dbd-46d7-a48f-ad0f2093db12",
+            "pos": [
+                2,
+                7
+            ],
+            "rotation": 1,
+            "walkable": false
+        },
+        {
+            "name": "wall2",
+            "id": "759abfe9-f379-4a19-8cae-c3c481e3cf3e",
+            "pos": [
+                4,
+                0
+            ],
+            "rotation": 1,
+            "walkable": false
+        },
+        {
+            "name": "player",
+            "id": "1dc482af-c853-4522-b22f-5f62a70b5efe",
+            "pos": [
+                4,
+                2
+            ],
+            "rotation": 1,
+            "walkable": true
+        },
+        {
+            "name": "pointLight",
+            "id": "4a30f49b-ea1c-4aaa-a3fe-504adb1501d2",
+            "pos": [
+                4,
+                4
+            ],
+            "rotation": 1,
+            "walkable": true
+        },
+        {
+            "name": "wall2",
+            "id": "9e1899b2-0e33-4df8-a9e3-8cf38069d927",
+            "pos": [
+                4,
+                7
+            ],
+            "rotation": 1,
+            "walkable": false
+        },
+        {
+            "name": "wall",
+            "id": "52c9f9fb-1ba0-4797-a779-56775d80e570",
+            "pos": [
+                6,
+                0
+            ],
+            "rotation": 0,
+            "walkable": false
+        },
+        {
+            "name": "wall",
+            "id": "e5a09c07-9683-435c-8370-f7558be6c4e5",
+            "pos": [
+                6,
+                4
+            ],
+            "rotation": 0,
+            "walkable": false
+        }
+    ]
+},
+
+{
+  "name": "Test 2",
+  "size": [
+      11,
+      11
+  ],
+  "gridSize": 0.5,
+  "grid": [
+      [
+          {
+              "color": "#CCCCCC",
+              "name": "wall2",
+              "id": "52837033-8a28-4a5b-828f-e366ae75c108",
+              "rotation": 2,
+              "placement": true,
+              "walkable": false
+          },
+          {
+              "color": "#CCCCCC",
+              "name": "wall2",
+              "id": "52837033-8a28-4a5b-828f-e366ae75c108",
+              "rotation": 2,
+              "placement": false,
+              "walkable": false
+          },
+          {
+              "color": "#CCCCCC",
+              "name": "wall2",
+              "id": "50fa74a4-2546-4a99-8ab4-a0b3b4cc84a1",
+              "rotation": 2,
+              "placement": true,
+              "walkable": false
+          },
+          {
+              "color": "#CCCCCC",
+              "name": "wall2",
+              "id": "50fa74a4-2546-4a99-8ab4-a0b3b4cc84a1",
+              "rotation": 2,
+              "placement": false,
+              "walkable": false
+          },
+          {
+              "color": "#CCCCCC",
+              "name": "wall2",
+              "id": "fd05804e-6c31-41fb-9ae8-3d60c3727b6d",
+              "rotation": 2,
+              "placement": true,
+              "walkable": false
+          },
+          {
+              "color": "#CCCCCC",
+              "name": "wall2",
+              "id": "fd05804e-6c31-41fb-9ae8-3d60c3727b6d",
+              "rotation": 2,
+              "placement": false,
+              "walkable": false
+          },
+          {
+              "color": "#CCCCCC",
+              "name": "wall2",
+              "id": "69b2c045-47e4-4a6f-83cb-bd28b7694409",
+              "rotation": 2,
+              "placement": true,
+              "walkable": false
+          },
+          {
+              "color": "#CCCCCC",
+              "name": "wall2",
+              "id": "69b2c045-47e4-4a6f-83cb-bd28b7694409",
+              "rotation": 2,
+              "placement": false,
+              "walkable": false
+          },
+          {
+              "color": "#CCCCCC",
+              "name": "wall2",
+              "id": "736445ba-c76c-40df-9d60-379c0541c104",
+              "rotation": 2,
+              "placement": true,
+              "walkable": false
+          },
+          {
+              "color": "#CCCCCC",
+              "name": "wall2",
+              "id": "736445ba-c76c-40df-9d60-379c0541c104",
+              "rotation": 2,
+              "placement": false,
+              "walkable": false
+          },
+          {
+              "color": "#CCCCCC",
+              "name": "wall2",
+              "id": "e81f7a36-0820-429f-bdf6-f09e123fbd72",
+              "rotation": 2,
+              "placement": true,
+              "walkable": false
+          }
+      ],
+      [
+          {
+              "color": "#CCCCCC",
+              "name": "wall2",
+              "id": "da308992-3c9e-4b32-b59e-6b7e5325562f",
+              "rotation": 1,
+              "placement": true,
+              "walkable": false
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "#CCCCCC",
+              "name": "wall2",
+              "id": "d817f722-d2bb-47e5-b5db-dc7f478df3a8",
+              "rotation": 1,
+              "placement": true,
+              "walkable": false
+          },
+          {
+              "color": "#CCCCCC",
+              "name": "wall2",
+              "id": "5d9fd151-096b-4176-b4e6-15f74ec01e6f",
+              "rotation": 1,
+              "placement": true,
+              "walkable": false
+          }
+      ],
+      [
+          {
+              "color": "#CCCCCC",
+              "name": "wall2",
+              "id": "da308992-3c9e-4b32-b59e-6b7e5325562f",
+              "rotation": 1,
+              "placement": false,
+              "walkable": false
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "green",
+              "name": "player",
+              "id": "514cde99-5afb-4d50-a116-68726a860765",
+              "rotation": 0,
+              "placement": true,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "#CCCCCC",
+              "name": "wall2",
+              "id": "d817f722-d2bb-47e5-b5db-dc7f478df3a8",
+              "rotation": 1,
+              "placement": false,
+              "walkable": false
+          },
+          {
+              "color": "#CCCCCC",
+              "name": "wall2",
+              "id": "5d9fd151-096b-4176-b4e6-15f74ec01e6f",
+              "rotation": 1,
+              "placement": false,
+              "walkable": false
+          }
+      ],
+      [
+          {
+              "color": "#CCCCCC",
+              "name": "wall2",
+              "id": "9b161547-2846-44a9-8833-2539dd021c4b",
+              "rotation": 1,
+              "placement": true,
+              "walkable": false
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "white",
+              "name": "wall",
+              "id": "bf997ffd-e6ac-4b5d-a761-9a65222cdff8",
+              "rotation": 1,
+              "placement": true,
+              "walkable": false
+          },
+          {
+              "color": "white",
+              "name": "wall",
+              "id": "bf997ffd-e6ac-4b5d-a761-9a65222cdff8",
+              "rotation": 1,
+              "placement": false,
+              "walkable": false
+          }
+      ],
+      [
+          {
+              "color": "#CCCCCC",
+              "name": "wall2",
+              "id": "9b161547-2846-44a9-8833-2539dd021c4b",
+              "rotation": 1,
+              "placement": false,
+              "walkable": false
+          },
+          {
+              "color": "white",
+              "name": "wall",
+              "id": "260403cc-8d67-4522-af86-042bb6be9e7b",
+              "rotation": 0,
+              "placement": true,
+              "walkable": false
+          },
+          {
+              "color": "white",
+              "name": "wall",
+              "id": "260403cc-8d67-4522-af86-042bb6be9e7b",
+              "rotation": 0,
+              "placement": false,
+              "walkable": false
+          },
+          {
+              "color": "white",
+              "name": "wall",
+              "id": "260403cc-8d67-4522-af86-042bb6be9e7b",
+              "rotation": 0,
+              "placement": false,
+              "walkable": false
+          },
+          {
+              "color": "white",
+              "name": "wall",
+              "id": "260403cc-8d67-4522-af86-042bb6be9e7b",
+              "rotation": 0,
+              "placement": false,
+              "walkable": false
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "white",
+              "name": "wall",
+              "id": "bf997ffd-e6ac-4b5d-a761-9a65222cdff8",
+              "rotation": 1,
+              "placement": false,
+              "walkable": false
+          },
+          {
+              "color": "white",
+              "name": "wall",
+              "id": "bf997ffd-e6ac-4b5d-a761-9a65222cdff8",
+              "rotation": 1,
+              "placement": false,
+              "walkable": false
+          }
+      ],
+      [
+          {
+              "color": "#CCCCCC",
+              "name": "wall2",
+              "id": "ef36eb1d-2329-4ef4-9157-67804d2e4b8e",
+              "rotation": 1,
+              "placement": true,
+              "walkable": false
+          },
+          {
+              "color": "white",
+              "name": "wall",
+              "id": "260403cc-8d67-4522-af86-042bb6be9e7b",
+              "rotation": 0,
+              "placement": false,
+              "walkable": false
+          },
+          {
+              "color": "white",
+              "name": "wall",
+              "id": "260403cc-8d67-4522-af86-042bb6be9e7b",
+              "rotation": 0,
+              "placement": false,
+              "walkable": false
+          },
+          {
+              "color": "white",
+              "name": "wall",
+              "id": "260403cc-8d67-4522-af86-042bb6be9e7b",
+              "rotation": 0,
+              "placement": false,
+              "walkable": false
+          },
+          {
+              "color": "white",
+              "name": "wall",
+              "id": "260403cc-8d67-4522-af86-042bb6be9e7b",
+              "rotation": 0,
+              "placement": false,
+              "walkable": false
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "#0000FF",
+              "name": "fileCabinet",
+              "id": "7d434058-da66-46b7-872c-630258939b7f",
+              "rotation": 3,
+              "placement": true,
+              "walkable": false
+          },
+          {
+              "color": "white",
+              "name": "wall",
+              "id": "bf997ffd-e6ac-4b5d-a761-9a65222cdff8",
+              "rotation": 1,
+              "placement": false,
+              "walkable": false
+          },
+          {
+              "color": "white",
+              "name": "wall",
+              "id": "bf997ffd-e6ac-4b5d-a761-9a65222cdff8",
+              "rotation": 1,
+              "placement": false,
+              "walkable": false
+          }
+      ],
+      [
+          {
+              "color": "#CCCCCC",
+              "name": "wall2",
+              "id": "ef36eb1d-2329-4ef4-9157-67804d2e4b8e",
+              "rotation": 1,
+              "placement": false,
+              "walkable": false
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "white",
+              "name": "wall",
+              "id": "bf997ffd-e6ac-4b5d-a761-9a65222cdff8",
+              "rotation": 1,
+              "placement": false,
+              "walkable": false
+          },
+          {
+              "color": "white",
+              "name": "wall",
+              "id": "bf997ffd-e6ac-4b5d-a761-9a65222cdff8",
+              "rotation": 1,
+              "placement": false,
+              "walkable": false
+          }
+      ],
+      [
+          {
+              "color": "#CCCCCC",
+              "name": "wall2",
+              "id": "6ad6f554-cc31-4e07-95a8-a9ed11604ae8",
+              "rotation": 1,
+              "placement": true,
+              "walkable": false
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "yellow",
+              "name": "pointLight",
+              "id": "30c1009d-0f64-462d-8802-274b660ec900",
+              "rotation": 0,
+              "placement": true,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "white",
+              "name": "wall",
+              "id": "44f9865f-ff6c-4a5c-8f1b-33e51cbf476f",
+              "rotation": 1,
+              "placement": true,
+              "walkable": false
+          },
+          {
+              "color": "white",
+              "name": "wall",
+              "id": "44f9865f-ff6c-4a5c-8f1b-33e51cbf476f",
+              "rotation": 1,
+              "placement": false,
+              "walkable": false
+          }
+      ],
+      [
+          {
+              "color": "#CCCCCC",
+              "name": "wall2",
+              "id": "6ad6f554-cc31-4e07-95a8-a9ed11604ae8",
+              "rotation": 1,
+              "placement": false,
+              "walkable": false
+          },
+          {
+              "color": "#0000FF",
+              "name": "fileCabinet",
+              "id": "2ba20f58-775d-4de4-ae63-64b1ef87ad36",
+              "rotation": 2,
+              "placement": true,
+              "walkable": false
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "white",
+              "name": "wall",
+              "id": "44f9865f-ff6c-4a5c-8f1b-33e51cbf476f",
+              "rotation": 1,
+              "placement": false,
+              "walkable": false
+          },
+          {
+              "color": "white",
+              "name": "wall",
+              "id": "44f9865f-ff6c-4a5c-8f1b-33e51cbf476f",
+              "rotation": 1,
+              "placement": false,
+              "walkable": false
+          }
+      ],
+      [
+          {
+              "color": "white",
+              "name": "wall",
+              "id": "8d23af0e-f498-47f3-bb96-25f4f40f33a7",
+              "rotation": 0,
+              "placement": true,
+              "walkable": false
+          },
+          {
+              "color": "white",
+              "name": "wall",
+              "id": "8d23af0e-f498-47f3-bb96-25f4f40f33a7",
+              "rotation": 0,
+              "placement": false,
+              "walkable": false
+          },
+          {
+              "color": "white",
+              "name": "wall",
+              "id": "8d23af0e-f498-47f3-bb96-25f4f40f33a7",
+              "rotation": 0,
+              "placement": false,
+              "walkable": false
+          },
+          {
+              "color": "white",
+              "name": "wall",
+              "id": "8d23af0e-f498-47f3-bb96-25f4f40f33a7",
+              "rotation": 0,
+              "placement": false,
+              "walkable": false
+          },
+          {
+              "color": "white",
+              "name": "wall",
+              "id": "7cc27ade-2e65-41a6-a40b-b6f02446345e",
+              "rotation": 0,
+              "placement": true,
+              "walkable": false
+          },
+          {
+              "color": "white",
+              "name": "wall",
+              "id": "7cc27ade-2e65-41a6-a40b-b6f02446345e",
+              "rotation": 0,
+              "placement": false,
+              "walkable": false
+          },
+          {
+              "color": "white",
+              "name": "wall",
+              "id": "7cc27ade-2e65-41a6-a40b-b6f02446345e",
+              "rotation": 0,
+              "placement": false,
+              "walkable": false
+          },
+          {
+              "color": "white",
+              "name": "wall",
+              "id": "7cc27ade-2e65-41a6-a40b-b6f02446345e",
+              "rotation": 0,
+              "placement": false,
+              "walkable": false
+          },
+          {
+              "color": "grey",
+              "name": "",
+              "id": null,
+              "rotation": 0,
+              "placement": false,
+              "walkable": true
+          },
+          {
+              "color": "white",
+              "name": "wall",
+              "id": "44f9865f-ff6c-4a5c-8f1b-33e51cbf476f",
+              "rotation": 1,
+              "placement": false,
+              "walkable": false
+          },
+          {
+              "color": "white",
+              "name": "wall",
+              "id": "44f9865f-ff6c-4a5c-8f1b-33e51cbf476f",
+              "rotation": 1,
+              "placement": false,
+              "walkable": false
+          }
+      ],
+      [
+          {
+              "color": "white",
+              "name": "wall",
+              "id": "8d23af0e-f498-47f3-bb96-25f4f40f33a7",
+              "rotation": 0,
+              "placement": false,
+              "walkable": false
+          },
+          {
+              "color": "white",
+              "name": "wall",
+              "id": "8d23af0e-f498-47f3-bb96-25f4f40f33a7",
+              "rotation": 0,
+              "placement": false,
+              "walkable": false
+          },
+          {
+              "color": "white",
+              "name": "wall",
+              "id": "8d23af0e-f498-47f3-bb96-25f4f40f33a7",
+              "rotation": 0,
+              "placement": false,
+              "walkable": false
+          },
+          {
+              "color": "white",
+              "name": "wall",
+              "id": "8d23af0e-f498-47f3-bb96-25f4f40f33a7",
+              "rotation": 0,
+              "placement": false,
+              "walkable": false
+          },
+          {
+              "color": "white",
+              "name": "wall",
+              "id": "7cc27ade-2e65-41a6-a40b-b6f02446345e",
+              "rotation": 0,
+              "placement": false,
+              "walkable": false
+          },
+          {
+              "color": "white",
+              "name": "wall",
+              "id": "7cc27ade-2e65-41a6-a40b-b6f02446345e",
+              "rotation": 0,
+              "placement": false,
+              "walkable": false
+          },
+          {
+              "color": "white",
+              "name": "wall",
+              "id": "7cc27ade-2e65-41a6-a40b-b6f02446345e",
+              "rotation": 0,
+              "placement": false,
+              "walkable": false
+          },
+          {
+              "color": "white",
+              "name": "wall",
+              "id": "7cc27ade-2e65-41a6-a40b-b6f02446345e",
+              "rotation": 0,
+              "placement": false,
+              "walkable": false
+          },
+          {
+              "color": "red",
+              "name": "enemy",
+              "id": "9fd5a6a2-1431-44bb-86d3-be70d192d56f",
+              "rotation": 0,
+              "placement": true,
+              "walkable": true
+          },
+          {
+              "color": "white",
+              "name": "wall",
+              "id": "44f9865f-ff6c-4a5c-8f1b-33e51cbf476f",
+              "rotation": 1,
+              "placement": false,
+              "walkable": false
+          },
+          {
+              "color": "white",
+              "name": "wall",
+              "id": "44f9865f-ff6c-4a5c-8f1b-33e51cbf476f",
+              "rotation": 1,
+              "placement": false,
+              "walkable": false
+          }
+      ]
+  ],
+  "items": [
+      {
+          "name": "wall2",
+          "id": "52837033-8a28-4a5b-828f-e366ae75c108",
+          "pos": [
+              0,
+              0
+          ],
+          "rotation": 2,
+          "walkable": false
+      },
+      {
+          "name": "wall2",
+          "id": "50fa74a4-2546-4a99-8ab4-a0b3b4cc84a1",
+          "pos": [
+              0,
+              2
+          ],
+          "rotation": 2,
+          "walkable": false
+      },
+      {
+          "name": "wall2",
+          "id": "fd05804e-6c31-41fb-9ae8-3d60c3727b6d",
+          "pos": [
+              0,
+              4
+          ],
+          "rotation": 2,
+          "walkable": false
+      },
+      {
+          "name": "wall2",
+          "id": "69b2c045-47e4-4a6f-83cb-bd28b7694409",
+          "pos": [
+              0,
+              6
+          ],
+          "rotation": 2,
+          "walkable": false
+      },
+      {
+          "name": "wall2",
+          "id": "736445ba-c76c-40df-9d60-379c0541c104",
+          "pos": [
+              0,
+              8
+          ],
+          "rotation": 2,
+          "walkable": false
+      },
+      {
+          "name": "wall2",
+          "id": "e81f7a36-0820-429f-bdf6-f09e123fbd72",
+          "pos": [
+              0,
+              10
+          ],
+          "rotation": 2,
+          "walkable": false
+      },
+      {
+          "name": "wall2",
+          "id": "da308992-3c9e-4b32-b59e-6b7e5325562f",
+          "pos": [
+              1,
+              0
+          ],
+          "rotation": 1,
+          "walkable": false
+      },
+      {
+          "name": "wall2",
+          "id": "d817f722-d2bb-47e5-b5db-dc7f478df3a8",
+          "pos": [
+              1,
+              9
+          ],
+          "rotation": 1,
+          "walkable": false
+      },
+      {
+          "name": "wall2",
+          "id": "5d9fd151-096b-4176-b4e6-15f74ec01e6f",
+          "pos": [
+              1,
+              10
+          ],
+          "rotation": 1,
+          "walkable": false
+      },
+      {
+          "name": "player",
+          "id": "514cde99-5afb-4d50-a116-68726a860765",
+          "pos": [
+              2,
+              2
+          ],
+          "rotation": 0,
+          "walkable": true
+      },
+      {
+          "name": "wall2",
+          "id": "9b161547-2846-44a9-8833-2539dd021c4b",
+          "pos": [
+              3,
+              0
+          ],
+          "rotation": 1,
+          "walkable": false
+      },
+      {
+          "name": "wall",
+          "id": "bf997ffd-e6ac-4b5d-a761-9a65222cdff8",
+          "pos": [
+              3,
+              9
+          ],
+          "rotation": 1,
+          "walkable": false
+      },
+      {
+          "name": "wall",
+          "id": "260403cc-8d67-4522-af86-042bb6be9e7b",
+          "pos": [
+              4,
+              1
+          ],
+          "rotation": 0,
+          "walkable": false
+      },
+      {
+          "name": "wall2",
+          "id": "ef36eb1d-2329-4ef4-9157-67804d2e4b8e",
+          "pos": [
+              5,
+              0
+          ],
+          "rotation": 1,
+          "walkable": false
+      },
+      {
+          "name": "fileCabinet",
+          "id": "7d434058-da66-46b7-872c-630258939b7f",
+          "pos": [
+              5,
+              8
+          ],
+          "rotation": 3,
+          "walkable": false
+      },
+      {
+          "name": "wall2",
+          "id": "6ad6f554-cc31-4e07-95a8-a9ed11604ae8",
+          "pos": [
+              7,
+              0
+          ],
+          "rotation": 1,
+          "walkable": false
+      },
+      {
+          "name": "pointLight",
+          "id": "30c1009d-0f64-462d-8802-274b660ec900",
+          "pos": [
+              7,
+              4
+          ],
+          "rotation": 0,
+          "walkable": true
+      },
+      {
+          "name": "wall",
+          "id": "44f9865f-ff6c-4a5c-8f1b-33e51cbf476f",
+          "pos": [
+              7,
+              9
+          ],
+          "rotation": 1,
+          "walkable": false
+      },
+      {
+          "name": "fileCabinet",
+          "id": "2ba20f58-775d-4de4-ae63-64b1ef87ad36",
+          "pos": [
+              8,
+              1
+          ],
+          "rotation": 2,
+          "walkable": false
+      },
+      {
+          "name": "wall",
+          "id": "8d23af0e-f498-47f3-bb96-25f4f40f33a7",
+          "pos": [
+              9,
+              0
+          ],
+          "rotation": 0,
+          "walkable": false
+      },
+      {
+          "name": "wall",
+          "id": "7cc27ade-2e65-41a6-a40b-b6f02446345e",
+          "pos": [
+              9,
+              4
+          ],
+          "rotation": 0,
+          "walkable": false
+      },
+      {
+          "name": "enemy",
+          "id": "9fd5a6a2-1431-44bb-86d3-be70d192d56f",
+          "pos": [
+              10,
+              8
+          ],
+          "rotation": 0,
+          "walkable": true
+      }
+  ]
+}
+
+]

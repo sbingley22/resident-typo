@@ -9,7 +9,6 @@ const Player = ({ position, grid, gridSize }) => {
   const meshRef = useRef()
   const enemiesRef = useRef(null)
   const [, getKeys] = useKeyboardControls()
-
   const [animName, setAnimName] = useState("Idle")
 
   const { scene } = useThree();
@@ -106,7 +105,7 @@ const Player = ({ position, grid, gridSize }) => {
         dx = dx * 0.74
         dz = dz * 0.74
       }
-      const speed = 0.05
+      const speed = 0.07
       dx *= speed
       dz *= speed
 

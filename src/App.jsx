@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './App.css'
+import maps from './components/models/maps.json'
 import Game from './components/Game'
 import MainMenu from './components/MainMenu'
 import MapMaker from './components/MapMaker'
@@ -8,6 +9,8 @@ function App() {
   const [option, setOption] = useState(2)
   const [map, setMap] = useState(null)
   const [difficulty, setDifficulty] = useState(0)
+
+  
 
   return (
     <div>
@@ -19,7 +22,7 @@ function App() {
           setMap={setMap}
           difficulty={difficulty}
         />}
-      {option==2 && <MapMaker setOption={setOption} setMap={setMap} />}
+      {option==2 && <MapMaker setOption={setOption} maps={maps} setMap={setMap} />}
     </div>
   )
 }

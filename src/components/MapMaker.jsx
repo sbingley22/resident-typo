@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 const items = {
   cube: {
-    color: "yellow",
+    color: "#BBBBBB",
     size: [2,2],
   },
   delete: {
@@ -12,27 +12,34 @@ const items = {
   },
   enemy: {
     color: "red",
-    size: [1,1]
+    size: [1,1],
+    walkable: true,
   },
   fileCabinet: {
-    color: "blue",
+    color: "#0000FF",
     size: [1,1],
   },
+  pointLight: {
+    color: "yellow",
+    size: [1,1],
+    walkable: true,
+  },
   player: {
-    color: "pink",
-    size: [1,1]
+    color: "green",
+    size: [1,1],
+    walkable: true,
   },
   wall: {
-    color: "green",
+    color: "white",
     size: [2,4],
   },
   wall2: {
-    color: "brown",
+    color: "#CCCCCC",
     size: [1,2],
   },
 }
 
-const MapMaker = ({ setOption, setMap }) => {
+const MapMaker = ({ setOption, maps, setMap }) => {
   const [name, setName] = useState("Map 1")
   const [rows, setRows] = useState(48);
   const [columns, setColumns] = useState(48);
@@ -40,6 +47,7 @@ const MapMaker = ({ setOption, setMap }) => {
   const [selectedItem, setSelectedItem] = useState("cube");
   const [hoveredSquare, setHoveredSquare] = useState(null);
   const [rotation, setRotation] = useState(0)
+  const [selectedMap, setSelectedMap] = useState("");
 
   const generateMap = () => {
     const map = {
@@ -64,7 +72,8 @@ const MapMaker = ({ setOption, setMap }) => {
             name: square.name,
             id: square.id,
             pos: [i, j],
-            rotation: square.rotation
+            rotation: square.rotation,
+            walkable: square.walkable,
           }
           gridItems.push(item)
         }
@@ -81,8 +90,21 @@ const MapMaker = ({ setOption, setMap }) => {
   }
 
   const saveMap = () => {
-    console.log("save map to js / json")
     const map = generateMap()
+    console.log("Logging map to console:")
+    console.log(map)
+  }
+
+  const loadMap = (event) => {
+    const mapName = event.target.value
+    setSelectedMap(mapName)
+    console.log("Loading map: ", mapName)
+    const map = maps.find(m => m.name == mapName)
+    console.log(map)
+    setName(map.name)
+    setColumns(map.size[0])
+    setRows(map.size[1])
+    setGrid(map.grid)
   }
 
   function initializeGrid() {
@@ -93,12 +115,13 @@ const MapMaker = ({ setOption, setMap }) => {
         id: null,
         rotation: 0,
         placement: false,
+        walkable: true,
       }))
     );
   }
 
   const handleNameChange = (e) => {
-    setName(e);
+    setName(e.target.value);
   };
   const handleRowChange = (e) => {
     setRows(parseInt(e.target.value, 10) || 0);
@@ -163,6 +186,7 @@ const MapMaker = ({ setOption, setMap }) => {
         square.id = id
         square.name = selectedItem
         square.rotation = rotation
+        square.walkable = item.hasOwnProperty('walkable') ? item.walkable : false
       }
     }
 
@@ -216,6 +240,17 @@ const MapMaker = ({ setOption, setMap }) => {
           <input type="number" value={columns} onChange={handleColumnChange} />
         </label>
         <button onClick={handleSetGrid}>Set Grid</button>
+        <label>
+            Load Map:
+            <select value={selectedMap} onChange={loadMap}>
+              <option key={"none"} value={""}></option>
+              {maps.map((m) => (
+                <option key={m.name} value={m.name}>
+                  {m.name}
+                </option>
+              ))}
+            </select>
+          </label>
       </div>
       <div>
         <label>
@@ -230,7 +265,7 @@ const MapMaker = ({ setOption, setMap }) => {
           </label>
           <button onClick={changeRotation}>Rotation: {rotation}</button>
           <button onClick={play}>Play</button>
-          <button onClick={saveMap}>Save</button>
+          <button onClick={saveMap}>Log</button>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: `repeat(${grid[0].length}, 20px)` }}>
         {grid.map((row, rowIndex) =>

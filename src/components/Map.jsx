@@ -10,23 +10,18 @@ import GridHelper from './GridHelper'
 import { FileCabinet } from './models/File-cabinet'
 
 const Map = ({map}) => {
-  const playerPos = useRef([0,0,0])
-  const enemies = [
-    // {
-    //   id: "0",
-    //   pos: [20,0,10]
-    // },
-    // {
-    //   id: "1",
-    //   pos: [16,0,8]
-    // },
-  ]
+  const [loading, setLoading] = useState(true)
+  const [playerPos, setPlayerPos] = useState([0,0,0])
+  const [enemies, setEnemies] = useState([])
   const boxes = useRef([])
   const fileCabinets = useRef([])
+  const [pointLights, setPointLights] = useState([])
   
   const staticGrid = useRef(new Pathfinding.Grid(map.size[0], map.size[1]))
 
   useEffect(() => {
+    const tempEnemies = []
+    const tempPointLights = []
     map.items.forEach( item => {
       if (item.name == "cube"){
         boxes.current.push({
@@ -39,7 +34,16 @@ const Map = ({map}) => {
           rotation: item.rotation,
           size: [1, 1, 1]
         })
-      } else if (item.name == "fileCabinet"){
+      } else if (item.name == "enemy"){
+        tempEnemies.push({
+          id: item.id,
+          pos:  [
+            item.pos[1]*map.gridSize, 
+            0, 
+            item.pos[0]*map.gridSize,
+          ],
+        })
+      }  else if (item.name == "fileCabinet"){
         fileCabinets.current.push({
           pos: [
             item.pos[1]*map.gridSize, 
@@ -50,10 +54,19 @@ const Map = ({map}) => {
           size: [0.5,0,0.5],
         })
       } else if (item.name == "player"){
-        playerPos.current[0] = item.pos[1]*map.gridSize
-        playerPos.current[1] = 0
-        playerPos.current[2] = item.pos[0]*map.gridSize
-        //console.log(playerPos)
+        setPlayerPos([
+          item.pos[1]*map.gridSize,
+          0,
+          item.pos[0]*map.gridSize
+        ])
+      } else if (item.name == "pointLight"){
+        tempPointLights.push({
+          pos: [
+            item.pos[1]*map.gridSize,
+            5,
+            item.pos[0]*map.gridSize
+            ],
+        })
       } else if (item.name == "wall"){
         boxes.current.push({
           type: "wall",
@@ -74,15 +87,18 @@ const Map = ({map}) => {
             item.pos[0]*map.gridSize,
           ],
           rotation: item.rotation,
-          size: [1, 1.75, 0.5]
+          size: [1, 1, 0.5]
         })
       }
     })
-
+    setEnemies(tempEnemies)
+    setPointLights(tempPointLights)
+    
     const setWalkableFromMap = () => {
       for (let x = 0; x < staticGrid.current.nodes[0].length; x++) {
         for (let y = 0; y < staticGrid.current.nodes.length; y++) {
-          if (map.grid[y][x].id != null) {
+          const square = map.grid[y][x]
+          if (square.id != null && square.walkable == false) {
             staticGrid.current.setWalkableAt(x, y, false)
           }
         }
@@ -90,11 +106,13 @@ const Map = ({map}) => {
     }
     setWalkableFromMap()
 
+    setLoading(false)
+
   },[])  
 
   const { scene } = useThree();
   const findSceneObjects = (name) => {
-    const objects = [];  
+    const objects = [];
     scene.traverse((child) => {
       if (child.name === name) {
         objects.push(child);
@@ -132,8 +150,10 @@ const Map = ({map}) => {
   const enemiesRef = useRef(null)
   
   useFrame((state,delta) => {
-    if (enemiesRef.current == null) enemiesRef.current = findSceneObjects("enemy")
-
+    if (enemiesRef.current == null || enemiesRef.current.length == 0) {
+      enemiesRef.current = findSceneObjects("enemy")
+    }
+    
     // update grid dynamically
     const updateDynamicGrid = () => {
       // reset dyn grid back to static
@@ -147,14 +167,20 @@ const Map = ({map}) => {
     updateDynamicGrid()
   })
 
+  if (loading) return (
+    <>
+    </>
+  )
+  console.log(pointLights)
   return (
     <>
-      <directionalLight intensity={.5} position={[0, 5, 0]} />
-      <pointLight intensity={10} position={[5,5,5]} />
-      <pointLight intensity={10} position={[20,5,20]} />
+      <ambientLight intensity={0.1} />
+      { pointLights.map( (light, index) => (
+        <pointLight key={index} intensity={50} position={light.pos} />
+      ))}
 
       <Player 
-        position={playerPos.current} 
+        position={playerPos}
         grid={staticGrid.current}
         gridSize={map.gridSize}
       />

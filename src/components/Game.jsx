@@ -22,7 +22,6 @@ function Game({ setOption, map, setMap, difficulty}) {
           camera={{ fov: 70, position: [12,5,17]}}
         >
           <Suspense>
-            <ambientLight intensity={0.2} />
             <Stars />
 
             <Map map={map} />
