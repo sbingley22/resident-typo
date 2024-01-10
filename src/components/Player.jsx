@@ -25,12 +25,12 @@ const Player = ({ position, grid, gridSize }) => {
   const isWalkable = (wx, wz) => {
     const x = Math.round(wx/gridSize)
     const z = Math.round(wz/gridSize)
-    if (x >= grid.nodes[0].length) return false
-    if (z >= grid.nodes.length) return false
+    if (x >= grid.current.nodes[0].length) return false
+    if (z >= grid.current.nodes.length) return false
     if (x < 0) return false
     if (z < 0) return false
 
-    if (grid.nodes[z][x].walkable) return true
+    if (grid.current.nodes[z][x].walkable) return true
     return false
   }
   const enemyCollision = (wx, wz, width) => {
@@ -73,6 +73,11 @@ const Player = ({ position, grid, gridSize }) => {
     setAnimName(name)
   }
 
+  // Having these variables outside useFrame helps garbage collection
+  const vec3 = new THREE.Vector3()
+  const quat = new THREE.Quaternion()
+  const quat2 = new THREE.Quaternion()
+  const euler = new THREE.Euler(0,0,0)
   useFrame((state, delta) => {
     if (enemiesRef.current == null) enemiesRef.current = findSceneObjects("enemy")
 
@@ -84,8 +89,8 @@ const Player = ({ position, grid, gridSize }) => {
     
       // Smooth rotation with slerp
       const currentRotation = meshRef.current.quaternion.clone();
-      const targetRotation = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, angle, 0));
-      const lerpedRotation = new THREE.Quaternion().copy(currentRotation).slerp(targetRotation, 0.1);
+      const targetRotation = quat.setFromEuler(euler.set(0, angle, 0));
+      const lerpedRotation = quat2.copy(currentRotation).slerp(targetRotation, 0.1);
     
       // Set the rotation of the body
       meshRef.current.quaternion.copy(lerpedRotation);
@@ -105,11 +110,11 @@ const Player = ({ position, grid, gridSize }) => {
         dx = dx * 0.74
         dz = dz * 0.74
       }
-      const speed = 0.07
+      const speed = 4 * delta
       dx *= speed
       dz *= speed
 
-      const target = new THREE.Vector3(
+      const target = vec3.set(
         ref.current.position.x + dx,
         ref.current.position.y,
         ref.current.position.z + dz,
@@ -133,7 +138,7 @@ const Player = ({ position, grid, gridSize }) => {
       }
 
       ref.current.position.copy(target)
-      const direction = new THREE.Vector3(dx,0,dz)
+      const direction = vec3.set(dx,0,dz)
       rotateTo(direction)
       return true
     }
@@ -142,7 +147,7 @@ const Player = ({ position, grid, gridSize }) => {
     else updateAnimation("Idle")
 
     const updateCamera = () => {
-      const camPos = new THREE.Vector3(
+      const camPos = vec3.set(
         ref.current.position.x,
         ref.current.position.y +5,
         ref.current.position.z +5,

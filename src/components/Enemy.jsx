@@ -21,7 +21,7 @@ const Enemy = ({ position, grid, gridSize }) => {
   })
 
   const findPath = (start, end) => {
-    const gridClone = grid.clone()
+    const gridClone = grid.current.clone()
     // Convert to grid size integers
     start[0] = Math.round(start[0]/gridSize)
     start[1] = Math.round(start[1]/gridSize)
@@ -57,6 +57,11 @@ const Enemy = ({ position, grid, gridSize }) => {
     setAnimName(name)
   }
 
+  // Having these variables outside useFrame helps garbage collection
+  const vec3 = new THREE.Vector3()
+  const quat = new THREE.Quaternion()
+  const quat2 = new THREE.Quaternion()
+  const euler = new THREE.Euler(0,0,0)
   useFrame((state, delta) => {
     if (playerRef.current == null) playerRef.current = findSceneObject("player")
     //console.log(playerRef.current)
@@ -67,8 +72,8 @@ const Enemy = ({ position, grid, gridSize }) => {
     
       // Smooth rotation with slerp
       const currentRotation = meshRef.current.quaternion.clone();
-      const targetRotation = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, angle, 0));
-      const lerpedRotation = new THREE.Quaternion().copy(currentRotation).slerp(targetRotation, 0.1);
+      const targetRotation = quat.setFromEuler(euler.set(0, angle, 0));
+      const lerpedRotation = quat2.copy(currentRotation).slerp(targetRotation, 0.1);
     
       // Set the rotation of the body
       meshRef.current.quaternion.copy(lerpedRotation);
@@ -109,8 +114,8 @@ const Enemy = ({ position, grid, gridSize }) => {
 
       // Take a step towards the next path position
       const nextStep = convertGridToWorld(savedPath.current[0])
-      const speed = 0.04
-      const targetPosition = new THREE.Vector3(nextStep[0], 0, nextStep[1])
+      const speed = 2 * delta
+      const targetPosition = vec3.set(nextStep[0], 0, nextStep[1])
       const direction = targetPosition.sub(pos)
       direction.normalize().multiplyScalar(speed)
       const newPosition = pos.add(direction)

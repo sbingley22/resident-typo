@@ -1,5 +1,11 @@
+import * as THREE from "three"
+import { useTexture } from "@react-three/drei"
+import wall from "../../assets/wall.jpg"
 
-const Box = ({position, size, color, rotation}) => {  
+const Wall = ({position, size, rotation}) => {
+  const texture = useTexture(wall)
+  texture.wrapS = texture.wrapT = THREE.RepeatWrapping
+  
   const meshPosition = [
     size[0]/2,
     size[1]/2,
@@ -20,18 +26,21 @@ const Box = ({position, size, color, rotation}) => {
         castShadow
         position={meshPosition}
         rotation={meshRotation}
+        scale={size}
       >
-        <boxGeometry args={size} />
-        <meshStandardMaterial color={color} />
+        <boxGeometry  />
+        <meshStandardMaterial 
+          map={texture}
+          map-repeat={[1,1]}
+        />
       </mesh>
     </group>
   )
 }
 
-Box.defaultProps = {
+Wall.defaultProps = {
   position: [0,0,0],
   size: [1,1,1],
-  color: "white",
 }
 
-export default Box
+export default Wall

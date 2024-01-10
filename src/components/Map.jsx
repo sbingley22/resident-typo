@@ -8,14 +8,18 @@ import Player from './Player'
 import Enemy from './Enemy'
 import GridHelper from './GridHelper'
 import { FileCabinet } from './models/File-cabinet'
+import Wall from './models/Wall'
+import Wall2 from './models/Wall2'
 
 const Map = ({map}) => {
   const [loading, setLoading] = useState(true)
+  const [pointLights, setPointLights] = useState([])
   const [playerPos, setPlayerPos] = useState([0,0,0])
   const [enemies, setEnemies] = useState([])
   const boxes = useRef([])
   const fileCabinets = useRef([])
-  const [pointLights, setPointLights] = useState([])
+  const walls = useRef([])
+  const walls2 = useRef([])
   
   const staticGrid = useRef(new Pathfinding.Grid(map.size[0], map.size[1]))
 
@@ -25,7 +29,6 @@ const Map = ({map}) => {
     map.items.forEach( item => {
       if (item.name == "cube"){
         boxes.current.push({
-          type: "solid",
           pos: [
             item.pos[1]*map.gridSize, 
             0, 
@@ -68,8 +71,7 @@ const Map = ({map}) => {
             ],
         })
       } else if (item.name == "wall"){
-        boxes.current.push({
-          type: "wall",
+        walls.current.push({
           pos: [
             item.pos[1]*map.gridSize, 
             0, 
@@ -79,8 +81,7 @@ const Map = ({map}) => {
           size: [2, 1.75, 1]
         })
       } else if (item.name == "wall2"){
-        boxes.current.push({
-          type: "wall2",
+        walls2.current.push({
           pos: [
             item.pos[1]*map.gridSize, 
             0, 
@@ -162,8 +163,6 @@ const Map = ({map}) => {
       dynObjs.forEach( obj => {
         updateGrid(obj[0],obj[1],obj[2],obj[3], gridClone)
       })
-      //const gridSame = JSON.stringify(grid.current) == JSON.stringify(gridClone)
-      //console.log(gridSame)
       grid.current = gridClone
     }
     updateDynamicGrid()
@@ -185,7 +184,7 @@ const Map = ({map}) => {
 
       <Player 
         position={playerPos}
-        grid={staticGrid.current}
+        grid={staticGrid}
         gridSize={map.gridSize}
       />
 
@@ -193,13 +192,13 @@ const Map = ({map}) => {
         <Enemy
           key={enemy.id}
           position={enemy.pos}
-          grid={grid.current}
+          grid={grid}
           gridSize={map.gridSize}
         />
       ))}
             
       <Ground position={[12, 0, 12]} scale={60} />
-      <GridHelper grid={grid.current} gridSize={map.gridSize}/>
+      {/* <GridHelper grid={grid} gridSize={map.gridSize}/> */}
 
       { boxes.current.map( (box, index) => (
         <Box 
@@ -208,7 +207,6 @@ const Map = ({map}) => {
           rotation={box.rotation}
           size={box.size}
           color={box.color}
-          type={box.type}
         />
       ))}
       
@@ -218,6 +216,24 @@ const Map = ({map}) => {
           position={cabinet.pos}
           rotation={cabinet.rotation}
           size={cabinet.size}
+        />
+      ))}
+
+      { walls.current.map( (wall, index) => (
+        <Wall 
+          key={index}
+          position={wall.pos}
+          rotation={wall.rotation}
+          size={wall.size}
+        />
+      ))}
+
+      { walls2.current.map( (wall2, index) => (
+        <Wall2 
+          key={index}
+          position={wall2.pos}
+          rotation={wall2.rotation}
+          size={wall2.size}
         />
       ))}
 

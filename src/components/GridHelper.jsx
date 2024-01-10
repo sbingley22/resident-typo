@@ -1,23 +1,30 @@
-import React from 'react';
-
-const GridCell = React.memo(({ x, y, gridSize, n }) => (
-  <group key={`${y}:${x}`} position={[n.x * gridSize, 0.01, n.y * gridSize]}>
-    <mesh rotation-x={-Math.PI / 2} position={[gridSize / 2, 0, gridSize / 2]}>
-      <planeGeometry args={[gridSize, gridSize]} />
-      <meshStandardMaterial color={n.walkable ? "green" : "red"} />
-    </mesh>
-  </group>
-));
+import { useFrame } from "@react-three/fiber";
 
 const GridHelper = ({ grid, gridSize }) => {
   
   console.log(grid.current)
 
+  useFrame( (scene) => {
+    
+  })
+
   return (
     <>
-      {grid.nodes.map((nodeRow, y) =>
-        nodeRow.map((node, x) => (
-          <GridCell key={x+"::"+y} x={x} y={y} gridSize={gridSize} n={node} />
+      {grid.current.nodes.map((nodeRow, y) =>
+        nodeRow.map((n, x) => (
+          <group 
+            key={`${y}:${x}`} 
+            position={[n.x * gridSize, 0.01, n.y * gridSize]}
+          >
+            <mesh 
+              rotation-x={-Math.PI / 2} 
+              position={[gridSize / 2, 0, gridSize / 2]} 
+              scale={gridSize}
+            >
+              <planeGeometry />
+              <meshStandardMaterial color={n.walkable ? "green" : "red"} />
+            </mesh>
+          </group>
         ))
       )}
     </>
