@@ -146,7 +146,7 @@ const Map = ({map}) => {
     }
   }
 
-  const [grid, setGrid] = useState(staticGrid.current)
+  const grid = useRef(staticGrid.current)
   const enemiesRef = useRef(null)
   
   useFrame((state,delta) => {
@@ -162,16 +162,20 @@ const Map = ({map}) => {
       dynObjs.forEach( obj => {
         updateGrid(obj[0],obj[1],obj[2],obj[3], gridClone)
       })
-      setGrid(gridClone)
+      //const gridSame = JSON.stringify(grid.current) == JSON.stringify(gridClone)
+      //console.log(gridSame)
+      grid.current = gridClone
     }
     updateDynamicGrid()
+
+    
   })
 
   if (loading) return (
     <>
     </>
   )
-  console.log(pointLights)
+  
   return (
     <>
       <ambientLight intensity={0.1} />
@@ -189,13 +193,13 @@ const Map = ({map}) => {
         <Enemy
           key={enemy.id}
           position={enemy.pos}
-          grid={grid}
+          grid={grid.current}
           gridSize={map.gridSize}
         />
       ))}
             
       <Ground position={[12, 0, 12]} scale={60} />
-      {/* <GridHelper grid={grid} gridSize={map.gridSize}/> */}
+      <GridHelper grid={grid.current} gridSize={map.gridSize}/>
 
       { boxes.current.map( (box, index) => (
         <Box 

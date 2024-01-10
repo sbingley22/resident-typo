@@ -1,16 +1,28 @@
 import { useState } from "react"
 
-const MainMenu = ({setOption, setDifficulty, setMap}) => {
+const MainMenu = ({setOption, setDifficulty, maps, setMap}) => {
   const [showOption, setShowOption] = useState(0)
 
-  const mapClicked = (name) => {
-    setMap(name)
-    setShowOption(1)
+  const mapClicked = (map) => {
+    setMap(map)
+    setShowOption(2)
   }
 
   const difficultyClicked = (dif) => {
     setDifficulty(dif)
     setOption(1)
+  }
+
+  const playClicked = () => {
+    setShowOption(1)
+  }
+
+  const quitClicked = () => {
+    console.log("Quiting")
+  }
+
+  const levelEditorClicked = () => {
+    setOption(2)
   }
   
   return (
@@ -18,16 +30,28 @@ const MainMenu = ({setOption, setDifficulty, setMap}) => {
       <h1>Game</h1>
       {showOption==0 &&
         <div>
-          <h3>Choose Map</h3> 
-          <button onClick={()=>mapClicked("Map 0")} >
-            Map 0
+          <button onClick={()=>playClicked()} >
+            Play
           </button>
-          <button onClick={()=>mapClicked("Map 1")} >
-            Map 1
+          <button onClick={()=>levelEditorClicked()} >
+            Level Editor
           </button>
-        </div>
+          <button onClick={()=>quitClicked()} >
+            Quit
+          </button>
+        </div>      
       }
       {showOption==1 &&
+        <div>
+          <h3>Choose Map</h3> 
+          { maps.map( (map, index) => (
+            <button key={index} onClick={()=>mapClicked(map)} >
+              {map.name}
+            </button>
+          ))}          
+        </div>
+      }
+      {showOption==2 &&
         <div>
           <h3>Choose Difficulty</h3> 
           <button onClick={()=>difficultyClicked(0)} >

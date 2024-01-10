@@ -228,6 +228,17 @@ const MapMaker = ({ setOption, maps, setMap }) => {
     <div id="map-maker">
       <div>
         <label>
+          Load Map:
+          <select value={selectedMap} onChange={loadMap}>
+            <option key={"none"} value={""}></option>
+            {maps.map((m) => (
+              <option key={m.name} value={m.name}>
+                {m.name}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label>
           Name:
           <input type="text" value={name} onChange={handleNameChange} />
         </label>
@@ -240,58 +251,56 @@ const MapMaker = ({ setOption, maps, setMap }) => {
           <input type="number" value={columns} onChange={handleColumnChange} />
         </label>
         <button onClick={handleSetGrid}>Set Grid</button>
-        <label>
-            Load Map:
-            <select value={selectedMap} onChange={loadMap}>
-              <option key={"none"} value={""}></option>
-              {maps.map((m) => (
-                <option key={m.name} value={m.name}>
-                  {m.name}
-                </option>
-              ))}
-            </select>
-          </label>
+        <button onClick={play}>Play</button>
+        <button onClick={saveMap}>Log</button>
+        <button onClick={changeRotation}>Rotation: {rotation}</button>
       </div>
-      <div>
-        <label>
-            Select Item:
-            <select value={selectedItem} onChange={handleItemChange}>
-              {Object.keys(items).map((itemName) => (
-                <option key={itemName} value={itemName}>
-                  {itemName}
-                </option>
-              ))}
-            </select>
-          </label>
-          <button onClick={changeRotation}>Rotation: {rotation}</button>
-          <button onClick={play}>Play</button>
-          <button onClick={saveMap}>Log</button>
-      </div>
-      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${grid[0].length}, 20px)` }}>
-        {grid.map((row, rowIndex) =>
-          row.map((square, colIndex) => (
-            <div
-              key={`${rowIndex}-${colIndex}`}
-              style={{
-                width: '20px',
-                height: '20px',
-                backgroundColor: square.color,
-                border: '1px solid black',
-                cursor: 'pointer',
-                opacity: hoveredSquare &&
-                  rowIndex >= hoveredSquare.rowIndex &&
-                  rowIndex < hoveredSquare.endRow &&
-                  colIndex >= hoveredSquare.colIndex &&
-                  colIndex < hoveredSquare.endCol
-                    ? 0.7
-                    : 1,
-              }}
-              onClick={() => handleSquareClick(rowIndex, colIndex)}
-              onMouseEnter={() => handleSquareHover(rowIndex, colIndex)}
-              onMouseLeave={handleSquareLeave}
-            />
-          ))
-        )}
+      <div style={{ display: 'flex' }}>
+        <div style={{ marginRight: '5px' }}>
+          <label>Select Item:</label>
+          {Object.keys(items).map((itemName) => (
+            <div key={itemName} style={{ backgroundColor: items[itemName].color, display: 'flex', alignItems: 'center', justifyContent: 'end', margin: selectedItem === itemName ? "12px 0px":"0px" }}>
+            <label htmlFor={itemName} style={{ backgroundColor: "black", padding: '0px 5px', flex: 1, cursor: 'pointer' }}>
+              <input
+                type="radio"
+                id={itemName}
+                name="selectedItem"
+                value={itemName}
+                checked={selectedItem === itemName}
+                onChange={handleItemChange}
+                style={{ display: 'none' }}
+              />
+              {itemName}
+            </label>
+          </div>
+          ))}
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: `repeat(${grid[0].length}, 20px)` }}>
+          {grid.map((row, rowIndex) =>
+            row.map((square, colIndex) => (
+              <div
+                key={`${rowIndex}-${colIndex}`}
+                style={{
+                  width: '20px',
+                  height: '20px',
+                  backgroundColor: square.color,
+                  border: '1px solid black',
+                  cursor: 'pointer',
+                  opacity: hoveredSquare &&
+                    rowIndex >= hoveredSquare.rowIndex &&
+                    rowIndex < hoveredSquare.endRow &&
+                    colIndex >= hoveredSquare.colIndex &&
+                    colIndex < hoveredSquare.endCol
+                      ? 0.7
+                      : 1,
+                }}
+                onClick={() => handleSquareClick(rowIndex, colIndex)}
+                onMouseEnter={() => handleSquareHover(rowIndex, colIndex)}
+                onMouseLeave={handleSquareLeave}
+              />
+            ))
+          )}
+        </div>
       </div>
     </div>
   );
