@@ -6,31 +6,36 @@ import MainMenu from './components/MainMenu'
 import MapMaker from './components/MapMaker'
 
 function App() {
-  const [option, setOption] = useState(0)
+  const [selection, setSelection] = useState(0)
   const [map, setMap] = useState(null)
-  const [difficulty, setDifficulty] = useState(0)
+  const [options, setOptions] = useState({
+    difficulty: 1,
+    shadows: false,
+  })
 
   return (
     <div>
-      {option==0 && 
+      {selection==0 && 
         <MainMenu 
-          setOption={setOption} 
-          setDifficulty={setDifficulty} 
+          setSelection={setSelection} 
+          options={options}
+          setOptions={setOptions} 
           maps={maps}
           setMap={setMap} 
         />
       }
-      {option==1 && 
+      {selection==1 && 
         <Game 
-          setOption={setOption} 
+          setSelection={setSelection} 
           map={map} 
           setMap={setMap}
-          difficulty={difficulty}
+          options={options}
+          setOptions={setOptions}
         />
       }
-      {option==2 &&
+      {selection==2 &&
         <MapMaker 
-          setOption={setOption}
+          setSelection={setSelection} 
           maps={maps}
           setMap={setMap}
         />

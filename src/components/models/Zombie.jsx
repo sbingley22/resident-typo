@@ -34,7 +34,14 @@ export function Zombie(props) {
           <primitive object={nodes['MCH-thigh_ik_targetparentL']} />
           <primitive object={nodes['MCH-foot_ikparentR']} />
           <primitive object={nodes['MCH-thigh_ik_targetparentR']} />
-          <skinnedMesh name="Body" geometry={nodes.Body.geometry} material={materials.Skin} skeleton={nodes.Body.skeleton} />
+          <skinnedMesh 
+            name="Body" 
+            geometry={nodes.Body.geometry} 
+            material={materials.Skin} 
+            skeleton={nodes.Body.skeleton} 
+            castShadow
+            receiveShadow
+          />
         </group>
       </group>
     </group>

@@ -3,8 +3,9 @@ import { useRef, useState } from "react"
 import * as THREE from "three"
 import Pathfinding from 'pathfinding'
 import { Zombie } from "./models/Zombie"
+import ShadowBlob from "./models/ShadowBlob"
 
-const Enemy = ({ position, grid, gridSize }) => {
+const Enemy = ({ index, position, grid, gridSize }) => {
   const ref = useRef()
   const meshRef = useRef()
   const playerRef = useRef(null)
@@ -147,9 +148,14 @@ const Enemy = ({ position, grid, gridSize }) => {
         <Zombie 
           animName={animName}
         />
+        <ShadowBlob offset={0.001 * index} />
       </group>
     </group>
   )
+}
+
+Enemy.defaultProps = {
+  index: 0
 }
 
 export default Enemy

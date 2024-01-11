@@ -1,5 +1,5 @@
 
-const Box = ({position, size, color, rotation}) => {  
+const Box = ({position, size, color, rotation, geo}) => {  
   const meshPosition = [
     size[0]/2,
     size[1]/2,
@@ -16,12 +16,12 @@ const Box = ({position, size, color, rotation}) => {
       position={position}
     >
       <mesh 
+        geometry={geo}
         receiveShadow 
         castShadow
         position={meshPosition}
         rotation={meshRotation}
       >
-        <boxGeometry args={size} />
         <meshStandardMaterial color={color} />
       </mesh>
     </group>

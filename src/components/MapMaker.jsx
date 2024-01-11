@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid'
 
 const items = {
-  cube: {
-    color: "#BBBBBB",
-    size: [2,2],
-  },
   delete: {
     color: "grey",
     size: [1,1],
+  },
+  cube: {
+    color: "#BBBBBB",
+    size: [2,2],
   },
   enemy: {
     color: "red",
@@ -29,6 +29,11 @@ const items = {
     size: [1,1],
     walkable: true,
   },
+  spotLight: {
+    color: "yellow",
+    size: [1,1],
+    walkable: true,
+  },
   wall: {
     color: "white",
     size: [2,4],
@@ -39,7 +44,7 @@ const items = {
   },
 }
 
-const MapMaker = ({ setOption, maps, setMap }) => {
+const MapMaker = ({ setSelection, maps, setMap }) => {
   const [name, setName] = useState("Map 1")
   const [rows, setRows] = useState(48);
   const [columns, setColumns] = useState(48);
@@ -86,7 +91,7 @@ const MapMaker = ({ setOption, maps, setMap }) => {
   const play = () => {
     const map = generateMap()
     setMap(map)
-    setOption(1)
+    setSelection(1)
   }
 
   const saveMap = () => {
@@ -100,7 +105,6 @@ const MapMaker = ({ setOption, maps, setMap }) => {
     setSelectedMap(mapName)
     console.log("Loading map: ", mapName)
     const map = maps.find(m => m.name == mapName)
-    console.log(map)
     setName(map.name)
     setColumns(map.size[0])
     setRows(map.size[1])

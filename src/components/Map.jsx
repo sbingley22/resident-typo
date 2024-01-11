@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { useFrame, useThree } from "@react-three/fiber"
+import * as THREE from 'three'
 
 import Box from './Box'
 import Ground from './Ground'
@@ -11,21 +12,22 @@ import { FileCabinet } from './models/File-cabinet'
 import Wall from './models/Wall'
 import Wall2 from './models/Wall2'
 
-const Map = ({map}) => {
-  const [loading, setLoading] = useState(true)
-  const [pointLights, setPointLights] = useState([])
-  const [playerPos, setPlayerPos] = useState([0,0,0])
-  const [enemies, setEnemies] = useState([])
+const Map = ({ map, options }) => {
+  const pointLights = []
+  const spotLights = []
+  const playerPos = [0,0,0]
+  const enemies = []
   const boxes = useRef([])
   const fileCabinets = useRef([])
   const walls = useRef([])
   const walls2 = useRef([])
+
+  const threeBox = new THREE.BoxGeometry()
+  const threePlane = new THREE.PlaneGeometry()
   
   const staticGrid = useRef(new Pathfinding.Grid(map.size[0], map.size[1]))
 
-  useEffect(() => {
-    const tempEnemies = []
-    const tempPointLights = []
+  const loadMap = () => {
     map.items.forEach( item => {
       if (item.name == "cube"){
         boxes.current.push({
@@ -38,7 +40,7 @@ const Map = ({map}) => {
           size: [1, 1, 1]
         })
       } else if (item.name == "enemy"){
-        tempEnemies.push({
+        enemies.push({
           id: item.id,
           pos:  [
             item.pos[1]*map.gridSize, 
@@ -57,16 +59,22 @@ const Map = ({map}) => {
           size: [0.5,0,0.5],
         })
       } else if (item.name == "player"){
-        setPlayerPos([
-          item.pos[1]*map.gridSize,
-          0,
-          item.pos[0]*map.gridSize
-        ])
+        playerPos[0] = item.pos[1]*map.gridSize
+        playerPos[1] = 0
+        playerPos[2] = item.pos[0]*map.gridSize
       } else if (item.name == "pointLight"){
-        tempPointLights.push({
+        pointLights.push({
           pos: [
             item.pos[1]*map.gridSize,
-            5,
+            4,
+            item.pos[0]*map.gridSize
+            ],
+        })
+      } else if (item.name == "spotLight"){
+        spotLights.push({
+          pos: [
+            item.pos[1]*map.gridSize,
+            4,
             item.pos[0]*map.gridSize
             ],
         })
@@ -92,8 +100,6 @@ const Map = ({map}) => {
         })
       }
     })
-    setEnemies(tempEnemies)
-    setPointLights(tempPointLights)
     
     const setWalkableFromMap = () => {
       for (let x = 0; x < staticGrid.current.nodes[0].length; x++) {
@@ -106,10 +112,8 @@ const Map = ({map}) => {
       }
     }
     setWalkableFromMap()
-
-    setLoading(false)
-
-  },[])  
+  }
+  loadMap()
 
   const { scene } = useThree();
   const findSceneObjects = (name) => {
@@ -146,6 +150,21 @@ const Map = ({map}) => {
       }
     }
   }
+  const spotlightRefs = useRef([]);
+  const addSpotLights = () => {
+    const spotlights = spotLights.map((light, index) => {
+      const spotlight = new THREE.SpotLight('#fff');
+      spotlight.position.set(light.pos[0], light.pos[1], light.pos[2]);
+      spotlight.target.position.set(light.pos[0], 0, light.pos[2]);
+      spotlight.intensity = 10
+      spotlight.castShadow = options.shadows ? true : false
+      spotlight.penumbra = 0.75
+      scene.add(spotlight, spotlight.target);
+      return spotlight;
+    });
+    spotlightRefs.current = spotlights;
+  }
+  addSpotLights()
 
   const grid = useRef(staticGrid.current)
   const enemiesRef = useRef(null)
@@ -169,17 +188,15 @@ const Map = ({map}) => {
 
     
   })
-
-  if (loading) return (
-    <>
-    </>
-  )
   
   return (
     <>
       <ambientLight intensity={0.1} />
       { pointLights.map( (light, index) => (
-        <pointLight key={index} intensity={50} position={light.pos} />
+        <pointLight key={index} intensity={50} position={light.pos} castShadow={options.shadows?true:false} />
+      ))}
+      {spotlightRefs.current.map((spotlight, index) => (
+        <primitive key={index} object={spotlight} />
       ))}
 
       <Player 
@@ -188,21 +205,23 @@ const Map = ({map}) => {
         gridSize={map.gridSize}
       />
 
-      { enemies.map( (enemy) => (
+      { enemies.map( (enemy, index) => (
         <Enemy
           key={enemy.id}
+          index={index}
           position={enemy.pos}
           grid={grid}
           gridSize={map.gridSize}
         />
       ))}
             
-      <Ground position={[12, 0, 12]} scale={60} />
-      {/* <GridHelper grid={grid} gridSize={map.gridSize}/> */}
+      <Ground geo={threePlane} position={[12, 0, 12]} scale={60} />
+      {/* <GridHelper geo={threePlane} grid={grid} gridSize={map.gridSize}/> */}
 
       { boxes.current.map( (box, index) => (
         <Box 
           key={index}
+          geo={threeBox}
           position={box.pos}
           rotation={box.rotation}
           size={box.size}
@@ -222,6 +241,7 @@ const Map = ({map}) => {
       { walls.current.map( (wall, index) => (
         <Wall 
           key={index}
+          geo={threeBox}
           position={wall.pos}
           rotation={wall.rotation}
           size={wall.size}
@@ -231,6 +251,7 @@ const Map = ({map}) => {
       { walls2.current.map( (wall2, index) => (
         <Wall2 
           key={index}
+          geo={threeBox}
           position={wall2.pos}
           rotation={wall2.rotation}
           size={wall2.size}

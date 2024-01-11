@@ -3,6 +3,7 @@ import { useRef, useState } from "react"
 import { useKeyboardControls } from "@react-three/drei"
 import * as THREE from "three"
 import { Jill } from "./models/Jill"
+import ShadowBlob from "./models/ShadowBlob"
 
 const Player = ({ position, grid, gridSize }) => {
   const ref = useRef()
@@ -175,6 +176,7 @@ const Player = ({ position, grid, gridSize }) => {
         <Jill 
           animName={animName}
         />
+        <ShadowBlob />
       </group>
     </group>
   )

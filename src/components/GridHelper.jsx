@@ -1,11 +1,9 @@
 import { useFrame } from "@react-three/fiber";
+import { useRef } from "react";
 
-const GridHelper = ({ grid, gridSize }) => {
+const GridHelper = ({ geo, grid, gridSize }) => {
   
-  console.log(grid.current)
-
   useFrame( (scene) => {
-    
   })
 
   return (

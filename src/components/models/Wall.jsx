@@ -2,7 +2,7 @@ import * as THREE from "three"
 import { useTexture } from "@react-three/drei"
 import wall from "../../assets/wall.jpg"
 
-const Wall = ({position, size, rotation}) => {
+const Wall = ({position, size, rotation, geo}) => {
   const texture = useTexture(wall)
   texture.wrapS = texture.wrapT = THREE.RepeatWrapping
   
@@ -21,14 +21,14 @@ const Wall = ({position, size, rotation}) => {
     <group
       position={position}
     >
-      <mesh 
+      <mesh
+        geometry={geo}
         receiveShadow 
         castShadow
         position={meshPosition}
         rotation={meshRotation}
         scale={size}
       >
-        <boxGeometry  />
         <meshStandardMaterial 
           map={texture}
           map-repeat={[1,1]}

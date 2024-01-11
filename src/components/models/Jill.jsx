@@ -32,7 +32,14 @@ export function Jill(props) {
           <primitive object={nodes['MCH-thigh_ik_targetparentL']} />
           <primitive object={nodes['MCH-foot_ikparentR']} />
           <primitive object={nodes['MCH-thigh_ik_targetparentR']} />
-          <skinnedMesh name="Body" geometry={nodes.Body.geometry} material={materials.skin} skeleton={nodes.Body.skeleton} />
+          <skinnedMesh 
+            name="Body" 
+            geometry={nodes.Body.geometry} 
+            material={materials.skin} 
+            skeleton={nodes.Body.skeleton} 
+            castShadow
+            receiveShadow
+          />
           <group name="Pistol">
             <skinnedMesh name="Cube" geometry={nodes.Cube.geometry} material={materials['Silver-Sandblasted']} skeleton={nodes.Cube.skeleton} />
             <skinnedMesh name="Cube_1" geometry={nodes.Cube_1.geometry} material={materials['Silver-Sandblasted.Darker']} skeleton={nodes.Cube_1.skeleton} />

@@ -1,28 +1,39 @@
 import { useState } from "react"
 
-const MainMenu = ({setOption, setDifficulty, maps, setMap}) => {
+const MainMenu = ({setSelection, options, setOptions, maps, setMap}) => {
   const [showOption, setShowOption] = useState(0)
 
   const mapClicked = (map) => {
     setMap(map)
     setShowOption(2)
   }
-
   const difficultyClicked = (dif) => {
-    setDifficulty(dif)
-    setOption(1)
+    const newOptions = {...options}
+    newOptions.difficulty = dif
+    setOptions(newOptions)
+    setSelection(1)
   }
-
   const playClicked = () => {
     setShowOption(1)
   }
-
   const quitClicked = () => {
     console.log("Quiting")
   }
-
   const levelEditorClicked = () => {
-    setOption(2)
+    setSelction(2)
+  }
+
+  const optionsClicked = () => {
+    setShowOption(10)
+  }
+  const returnClicked = () => {
+    setShowOption(0)
+  }
+
+  const optionsShadowClicked = () => {
+    const newOptions = {...options}
+    newOptions.shadows = !options.shadows
+    setOptions(newOptions)
   }
   
   return (
@@ -32,6 +43,9 @@ const MainMenu = ({setOption, setDifficulty, maps, setMap}) => {
         <div>
           <button onClick={()=>playClicked()} >
             Play
+          </button>
+          <button onClick={()=>optionsClicked()} >
+            Options
           </button>
           <button onClick={()=>levelEditorClicked()} >
             Level Editor
@@ -59,6 +73,19 @@ const MainMenu = ({setOption, setDifficulty, maps, setMap}) => {
           </button>
           <button onClick={()=>difficultyClicked(1)} >
             Normal Mode
+          </button>
+        </div>
+      }
+      
+      {/* Options Menu */}
+      {showOption==10 &&
+        <div>
+          <h3>Options</h3>
+          <button onClick={()=>returnClicked()} >
+            Return to menu
+          </button>
+          <button onClick={()=>optionsShadowClicked()} >
+            Shadows: {options.shadows ? "On" : "Off"}
           </button>
         </div>
       }
