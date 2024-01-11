@@ -55,6 +55,7 @@ const Enemy = ({ index, position, grid, gridSize }) => {
   }
 
   const updateAnimation = (name) => {
+    if (animName === name) return
     setAnimName(name)
   }
 
