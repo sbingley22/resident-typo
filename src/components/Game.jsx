@@ -27,7 +27,7 @@ function Game({ setSelection, map, setMap, options, setOptions}) {
 
             <Map map={map} options={options} />
 
-            {/* <Stats /> */}
+            <Stats />
           </Suspense>
         </Canvas>
       </KeyboardControls>

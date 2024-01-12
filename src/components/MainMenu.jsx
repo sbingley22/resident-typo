@@ -20,7 +20,7 @@ const MainMenu = ({setSelection, options, setOptions, maps, setMap}) => {
     console.log("Quiting")
   }
   const levelEditorClicked = () => {
-    setSelction(2)
+    setSelection(2)
   }
 
   const optionsClicked = () => {

@@ -11,6 +11,7 @@ import GridHelper from './GridHelper'
 import { FileCabinet } from './models/File-cabinet'
 import Wall from './models/Wall'
 import Wall2 from './models/Wall2'
+import WallBig from './models/WallBig'
 
 const Map = ({ map, options }) => {
   const pointLights = []
@@ -21,6 +22,7 @@ const Map = ({ map, options }) => {
   const fileCabinets = useRef([])
   const walls = useRef([])
   const walls2 = useRef([])
+  const wallsBig = useRef([])
 
   const threeBox = new THREE.BoxGeometry()
   const threePlane = new THREE.PlaneGeometry()
@@ -97,6 +99,16 @@ const Map = ({ map, options }) => {
           ],
           rotation: item.rotation,
           size: [1, 1, 0.5]
+        })
+      } else if (item.name == "wallBig"){
+        wallsBig.current.push({
+          pos: [
+            item.pos[1]*map.gridSize, 
+            0, 
+            item.pos[0]*map.gridSize,
+          ],
+          rotation: item.rotation,
+          size: [8, 1.75, 1]
         })
       }
     })
@@ -216,7 +228,7 @@ const Map = ({ map, options }) => {
       ))}
             
       <Ground geo={threePlane} position={[12, 0, 12]} scale={60} />
-      {/* <GridHelper geo={threePlane} grid={grid} gridSize={map.gridSize}/> */}
+      {/* <GridHelper grid={grid} gridSize={map.gridSize}/> */}
 
       { boxes.current.map( (box, index) => (
         <Box 
@@ -255,6 +267,16 @@ const Map = ({ map, options }) => {
           position={wall2.pos}
           rotation={wall2.rotation}
           size={wall2.size}
+        />
+      ))}
+
+      { wallsBig.current.map( (wall, index) => (
+        <WallBig 
+          key={index}
+          geo={threeBox}
+          position={wall.pos}
+          rotation={wall.rotation}
+          size={wall.size}
         />
       ))}
 

@@ -7,7 +7,7 @@ const items = {
     size: [1,1],
   },
   cube: {
-    color: "#BBBBBB",
+    color: "#DDDDDD",
     size: [2,2],
   },
   enemy: {
@@ -41,6 +41,10 @@ const items = {
   wall2: {
     color: "#CCCCCC",
     size: [1,2],
+  },
+  wallBig: {
+    color: "#BBBBBB",
+    size: [2,16],
   },
 }
 

@@ -2,6 +2,7 @@ import { useFrame, useThree } from "@react-three/fiber"
 import { useRef, useState } from "react"
 import { useKeyboardControls } from "@react-three/drei"
 import * as THREE from "three"
+import usePlayerStore from "./stores/PlayerStore"
 import { Jill } from "./models/Jill"
 import ShadowBlob from "./models/ShadowBlob"
 
@@ -11,6 +12,36 @@ const Player = ({ position, grid, gridSize }) => {
   const enemiesRef = useRef(null)
   const [, getKeys] = useKeyboardControls()
   const [animName, setAnimName] = useState("Idle")
+  
+  // Having these variables outside useFrame helps garbage collection
+  const playerPos = new THREE.Vector3()
+  const playerTarget = new THREE.Vector3()
+  const enemyPos = new THREE.Vector3()
+  const directionMoving = new THREE.Vector3()
+  const directionEnemy = new THREE.Vector3()
+  const target = new THREE.Vector3()
+  const direction = new THREE.Vector3()
+  const camPos = new THREE.Vector3()
+  const targetRotation = new THREE.Quaternion()
+  const lerpedRotation = new THREE.Quaternion()
+  const euler = new THREE.Euler(0,0,0)
+
+  const health = usePlayerStore((state) => state.health)
+  const setHealth = (newHealth) => {
+    usePlayerStore.setState( state => {
+      const newState = {...state}
+      newState.health = newHealth
+      return newState
+    })
+  }
+  const ammo = usePlayerStore((state) => state.ammo)
+  const setAmmo = (newAmmo) => {
+    usePlayerStore.setState( state => {
+      const newState = {...state}
+      newState.ammo = newAmmo
+      return newState
+    })
+  }
 
   const { scene } = useThree();
   const findSceneObjects = (name) => {
@@ -35,25 +66,25 @@ const Player = ({ position, grid, gridSize }) => {
     return false
   }
   const enemyCollision = (wx, wz, width) => {
-    const playerPos = new THREE.Vector3().copy(ref.current.position)
+    playerPos.copy(ref.current.position)
     playerPos.x += width
     playerPos.z += width
-    const playerTarget = new THREE.Vector3()
+
     playerTarget.x = wx + width
     playerTarget.y = playerPos.y
     playerTarget.z = wz + width
     let canMove = true
 
     enemiesRef.current.forEach(enemy => {
-      const enemyPos = new THREE.Vector3().copy(enemy.position)
+      enemyPos.copy(enemy.position)
       enemyPos.x += width
       enemyPos.z += width
       const distance = playerTarget.distanceTo(enemyPos)
       if (distance < width * 2) {
         // now test direction
         // if player is moving away then we shouldn't prevent him from moving
-        const directionMoving = new THREE.Vector3().subVectors(playerPos, playerTarget).normalize()
-        const directionEnemy = new THREE.Vector3().subVectors(playerPos, enemyPos).normalize()
+        directionMoving.subVectors(playerPos, playerTarget).normalize()
+        directionEnemy.subVectors(playerPos, enemyPos).normalize()
         const distance = directionMoving.distanceTo(directionEnemy)
         if (distance < 0.5) canMove = false
         return
@@ -75,11 +106,6 @@ const Player = ({ position, grid, gridSize }) => {
     setAnimName(name)
   }
 
-  // Having these variables outside useFrame helps garbage collection
-  const vec3 = new THREE.Vector3()
-  const quat = new THREE.Quaternion()
-  const quat2 = new THREE.Quaternion()
-  const euler = new THREE.Euler(0,0,0)
   useFrame((state, delta) => {
     if (enemiesRef.current == null) enemiesRef.current = findSceneObjects("enemy")
 
@@ -91,8 +117,8 @@ const Player = ({ position, grid, gridSize }) => {
     
       // Smooth rotation with slerp
       const currentRotation = meshRef.current.quaternion.clone();
-      const targetRotation = quat.setFromEuler(euler.set(0, angle, 0));
-      const lerpedRotation = quat2.copy(currentRotation).slerp(targetRotation, 0.1);
+      targetRotation.setFromEuler(euler.set(0, angle, 0));
+      lerpedRotation.copy(currentRotation).slerp(targetRotation, 0.1);
     
       // Set the rotation of the body
       meshRef.current.quaternion.copy(lerpedRotation);
@@ -116,7 +142,7 @@ const Player = ({ position, grid, gridSize }) => {
       dx *= speed
       dz *= speed
 
-      const target = vec3.set(
+      target.set(
         ref.current.position.x + dx,
         ref.current.position.y,
         ref.current.position.z + dz,
@@ -140,7 +166,7 @@ const Player = ({ position, grid, gridSize }) => {
       }
 
       ref.current.position.copy(target)
-      const direction = vec3.set(dx,0,dz)
+      direction.set(dx,0,dz)
       rotateTo(direction)
       return true
     }
@@ -149,7 +175,7 @@ const Player = ({ position, grid, gridSize }) => {
     else updateAnimation("Idle")
 
     const updateCamera = () => {
-      const camPos = vec3.set(
+      camPos.set(
         ref.current.position.x,
         ref.current.position.y +5,
         ref.current.position.z +5,
