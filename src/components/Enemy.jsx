@@ -68,6 +68,10 @@ const Enemy = ({ index, position, grid, gridSize }) => {
     if (playerRef.current == null) playerRef.current = findSceneObject("player")
     //console.log(playerRef.current)
 
+    // Load all enemies at start. Classify enemies below -988 y as inactive
+    const status = ref.current.position.y < -998 ? "inactive" : "active"
+    if (status === "inactive") return
+
     const rotateTo = (direction) => {
       // Rotate to the correct direction
       const angle = Math.atan2(direction.x, direction.z);
@@ -136,11 +140,14 @@ const Enemy = ({ index, position, grid, gridSize }) => {
 
   })
 
+  //console.log("Enemy rerender")
   return (
     <group 
       ref={ref} 
       position={position}
       name="enemy"
+      health={0}
+      gameid={"enemy: "+index}
     >
       <group
         ref={meshRef}

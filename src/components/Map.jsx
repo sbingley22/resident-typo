@@ -144,6 +144,9 @@ const Map = ({ map, options }) => {
 
     objs.forEach( o => {
       const pos = o.position
+      
+      if (pos.x < 0 || pos.z < 0) return
+
       dynamic.push([
         pos.x,
         pos.x + map.gridSize,
@@ -192,28 +195,40 @@ const Map = ({ map, options }) => {
 
   const grid = useRef(staticGrid.current)
   const enemiesRef = useRef(null)
-  const [enemies, setEnemies] = useState([])
   const spawnTimer = useRef(2)
   const spawnCount = useRef(3)
-  
-  useEffect(()=>{
-    enemiesRef.current = findSceneObjects("enemy")
-  }, [enemies])
+
+  const enemies = [0,1,2,3,4]
   
   useFrame((state,delta) => {
+    if (enemiesRef.current == null) enemiesRef.current = findSceneObjects("enemy")
 
     spawnTimer.current -= delta
     if (spawnTimer.current < 0 && spawnCount.current > 0) {
       // spawn enemies
       spawnTimer.current = 5
-      const newEnemies = [...enemies]
-      newEnemies.push({
-        id: spawnCount.current,
-        pos: enemySpawn[0].pos
+      // find an unused enemy to spawn
+      let foundSpare = false
+      enemiesRef.current.forEach( enemy => {
+        if (foundSpare) return
+        if (enemy.health <= 0) {
+          //reuse this enemy
+          foundSpare = true
+          const spawnIndex = 0
+          enemy.position.set(
+            enemySpawn[spawnIndex].pos[0],
+            enemySpawn[spawnIndex].pos[1],
+            enemySpawn[spawnIndex].pos[2],
+          )
+          enemy.health = 100
+          return
+        }
       })
-      setEnemies(newEnemies)
-
-      spawnCount.current -= 1
+      
+      if (foundSpare) {
+        spawnCount.current -= 1
+        console.log(enemiesRef.current)
+      }
     }
 
     // update grid dynamically
@@ -229,6 +244,7 @@ const Map = ({ map, options }) => {
     updateDynamicGrid()
   })
   
+  //console.log("Map rerender")
   return (
     <>
       <ambientLight intensity={0.1} />
@@ -247,9 +263,9 @@ const Map = ({ map, options }) => {
 
       { enemies.map( (enemy, index) => (
         <Enemy
-          key={enemy.id}
+          key={"enemy: " + index}
           index={index}
-          position={enemy.pos}
+          position={[-999,-999,-999]}
           grid={grid}
           gridSize={map.gridSize}
         />

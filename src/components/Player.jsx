@@ -37,7 +37,7 @@ const Player = ({ position, grid, gridSize }) => {
     })
   }
 
-  const { scene } = useThree();
+  const { scene, camera } = useThree();
   const findSceneObjects = (name) => {
     const objects = [];  
     scene.traverse((child) => {
@@ -103,7 +103,7 @@ const Player = ({ position, grid, gridSize }) => {
   }
 
   useFrame((state, delta) => {
-    //if (enemiesRef.current == null) enemiesRef.current = findSceneObjects("enemy")
+    if (enemiesRef.current == null) enemiesRef.current = findSceneObjects("enemy")
 
     const { forward, backward, left, right, typeMode, interact } = getKeys()
 
@@ -125,11 +125,32 @@ const Player = ({ position, grid, gridSize }) => {
     
     if (playerStore.mode === "typing") {
       // Get list of viable targets
-      console.log(enemiesRef)
-        if (enemiesRef.current) {
+      if (enemiesRef.current) {
+        const targets = []
+
         enemiesRef.current.forEach( enemy => {
-          console.log(enemy)
+          const screenPosition = enemy.position.clone();
+          const distance = ref.current.position.distanceTo(screenPosition)
+          if (distance > 7) return
+
+          screenPosition.project(camera);
+          
+          const screenX = ( (screenPosition.x + 1 ) / 2 ) * 100
+          const screenY = ( (screenPosition.y + 1 ) / 2 ) * 100
+          //console.log(screenX, screenY)
+
+          if (screenX < 10 || screenX > 90 ) return
+          if (screenY < 10 || screenY > 90 ) return
+          targets.push({
+            id: enemy.id,
+            enemyid: enemy.gameid,
+            name: "testing",
+            pos: [screenX, screenY],
+          })
         })
+
+        // update player state targets
+        setPlayerStore("targets", targets)
       }
 
       updateAnimation("Pistol Ready")
@@ -217,6 +238,8 @@ const Player = ({ position, grid, gridSize }) => {
     }
 
   })
+
+  //console.log("Player rerender")
   return (
     <group 
       ref={ref} 

@@ -16,6 +16,7 @@ const HUD = () => {
     if (currentTarget) {
       const target = targets.find(target => (target.id === currentTarget))
       if (!target) {
+        console.log("No targets found")
         setCurrentTarget(null)
         return
       }
@@ -23,19 +24,24 @@ const HUD = () => {
       if (lettersMatch(target, letter)) {
         if (target.name.length <= currentLetter + 1) {
           // word complete
+          console.log("Word Complete")
           setCurrentTarget(null)
           setCurrentLetter(0)
           //shoot enemy
         }
       } else {
         // missed shot
+        console.log("Missed Letter")
       }
-
     } else {
+      let targetSet = false
       targets.forEach(target => {
-        console.log(target.name)
+        if (targetSet) return
+
         if (lettersMatch(target, letter)) {
           setCurrentTarget(target.id)
+          targetSet = true
+          console.log("New Target: " + target.enemyid)
         }
       });
     }
@@ -56,10 +62,10 @@ const HUD = () => {
       inputRef.current.focus()
     }
     else {
-
     }
   }, [mode])
 
+  //console.log("HUD rerender")
   return (
     <div className="HUD">
       <div className="top-left">
@@ -78,7 +84,7 @@ const HUD = () => {
           {targets.map( (target) => (
             <div 
               key={target.id} 
-              style={{ position: "absolute", left: target.pos[0]+"vw", top: target.pos[1]+"vh" }}
+              style={{ position: "absolute", left: target.pos[0]+"vw", bottom: target.pos[1]+"vh" }}
             >
               { target.id === currentTarget ?
                 <>
