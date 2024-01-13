@@ -38,7 +38,7 @@ const MainMenu = ({setSelection, options, setOptions, maps, setMap}) => {
   
   return (
     <div className="main-menu">
-      <h1>Game</h1>
+      <h1>Resident Typo</h1>
       {showOption==0 &&
         <div>
           <button onClick={()=>playClicked()} >

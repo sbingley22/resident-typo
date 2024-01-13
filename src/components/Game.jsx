@@ -14,7 +14,7 @@ function Game({ setSelection, map, setMap, options, setOptions}) {
         { name: "backward", keys: ["ArrowDown", "s", "S"] },
         { name: "left", keys: ["ArrowLeft", "a", "A"] },
         { name: "right", keys: ["ArrowRight", "d", "D"] },
-        { name: "jump", keys: ["Space"] },
+        { name: "typeMode", keys: ["Space"] },
         { name: "interact", keys: ["f", "F"] },
         ]}
       >

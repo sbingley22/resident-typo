@@ -17,7 +17,7 @@ const Map = ({ map, options }) => {
   const pointLights = []
   const spotLights = []
   const playerPos = [0,0,0]
-  const enemies = []
+  const enemySpawn = []
   const boxes = useRef([])
   const fileCabinets = useRef([])
   const walls = useRef([])
@@ -42,7 +42,7 @@ const Map = ({ map, options }) => {
           size: [1, 1, 1]
         })
       } else if (item.name == "enemy"){
-        enemies.push({
+        enemySpawn.push({
           id: item.id,
           pos:  [
             item.pos[1]*map.gridSize, 
@@ -140,6 +140,8 @@ const Map = ({ map, options }) => {
   const getDynamicObjects = (objs) => {
     const dynamic = []
 
+    if (!objs || objs.length == 0) return dynamic
+
     objs.forEach( o => {
       const pos = o.position
       dynamic.push([
@@ -164,6 +166,16 @@ const Map = ({ map, options }) => {
   }
   const spotlightRefs = useRef([]);
   const addSpotLights = () => {
+    // If already added spot lights, don't add them again
+    if (spotlightRefs.current.length != 0) return
+
+    // Remove existing spotlights
+    spotlightRefs.current.forEach((spotlight) => {
+      scene.remove(spotlight, spotlight.target);
+      spotlight.dispose();
+    });
+
+    // Add spotlights
     const spotlights = spotLights.map((light, index) => {
       const spotlight = new THREE.SpotLight('#fff');
       spotlight.position.set(light.pos[0], light.pos[1], light.pos[2]);
@@ -180,12 +192,30 @@ const Map = ({ map, options }) => {
 
   const grid = useRef(staticGrid.current)
   const enemiesRef = useRef(null)
+  const [enemies, setEnemies] = useState([])
+  const spawnTimer = useRef(2)
+  const spawnCount = useRef(3)
+  
+  useEffect(()=>{
+    enemiesRef.current = findSceneObjects("enemy")
+  }, [enemies])
   
   useFrame((state,delta) => {
-    if (enemiesRef.current == null || enemiesRef.current.length == 0) {
-      enemiesRef.current = findSceneObjects("enemy")
+
+    spawnTimer.current -= delta
+    if (spawnTimer.current < 0 && spawnCount.current > 0) {
+      // spawn enemies
+      spawnTimer.current = 5
+      const newEnemies = [...enemies]
+      newEnemies.push({
+        id: spawnCount.current,
+        pos: enemySpawn[0].pos
+      })
+      setEnemies(newEnemies)
+
+      spawnCount.current -= 1
     }
-    
+
     // update grid dynamically
     const updateDynamicGrid = () => {
       // reset dyn grid back to static
@@ -197,8 +227,6 @@ const Map = ({ map, options }) => {
       grid.current = gridClone
     }
     updateDynamicGrid()
-
-    
   })
   
   return (

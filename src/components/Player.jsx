@@ -26,19 +26,13 @@ const Player = ({ position, grid, gridSize }) => {
   const lerpedRotation = new THREE.Quaternion()
   const euler = new THREE.Euler(0,0,0)
 
-  const health = usePlayerStore((state) => state.health)
-  const setHealth = (newHealth) => {
+  const modekeyHeld = useRef(false)
+
+  const playerStore = usePlayerStore()
+  const setPlayerStore = (attribute, value) => {
     usePlayerStore.setState( state => {
       const newState = {...state}
-      newState.health = newHealth
-      return newState
-    })
-  }
-  const ammo = usePlayerStore((state) => state.ammo)
-  const setAmmo = (newAmmo) => {
-    usePlayerStore.setState( state => {
-      const newState = {...state}
-      newState.ammo = newAmmo
+      newState[attribute] = value
       return newState
     })
   }
@@ -66,6 +60,8 @@ const Player = ({ position, grid, gridSize }) => {
     return false
   }
   const enemyCollision = (wx, wz, width) => {
+    if (!enemiesRef.current) return true
+
     playerPos.copy(ref.current.position)
     playerPos.x += width
     playerPos.z += width
@@ -107,9 +103,40 @@ const Player = ({ position, grid, gridSize }) => {
   }
 
   useFrame((state, delta) => {
-    if (enemiesRef.current == null) enemiesRef.current = findSceneObjects("enemy")
+    //if (enemiesRef.current == null) enemiesRef.current = findSceneObjects("enemy")
 
-    const { forward, backward, left, right, jump, interact } = getKeys()
+    const { forward, backward, left, right, typeMode, interact } = getKeys()
+
+    if (typeMode) {
+      if (modekeyHeld.current == false) {
+        if (playerStore.mode === "typing") {
+          setPlayerStore("mode", "default")
+          console.log("setting mode to default")
+        } else {
+          setPlayerStore("mode", "typing")
+          console.log("setting mode to typing")
+        }
+        modekeyHeld.current = true
+      }
+    }
+    else {
+      modekeyHeld.current = false
+    }
+    
+    if (playerStore.mode === "typing") {
+      // Get list of viable targets
+      console.log(enemiesRef)
+        if (enemiesRef.current) {
+        enemiesRef.current.forEach( enemy => {
+          console.log(enemy)
+        })
+      }
+
+      updateAnimation("Pistol Ready")
+      //updateAnimation("Pistol Aim")
+      //updateAnimation("Pistol Fire")
+      return
+    }
 
     const rotateTo = (direction) => {
       // Rotate to the correct direction
