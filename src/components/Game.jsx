@@ -16,6 +16,7 @@ function Game({ setSelection, map, setMap, options, setOptions}) {
         { name: "right", keys: ["ArrowRight", "d", "D"] },
         { name: "typeMode", keys: ["Space"] },
         { name: "interact", keys: ["f", "F"] },
+        { name: "inventory", keys: ["`"] },
         ]}
       >
         <Canvas

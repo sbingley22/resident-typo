@@ -28,6 +28,7 @@ const Player = ({ position, grid, gridSize }) => {
   const euler = new THREE.Euler(0,0,0)
 
   const modekeyHeld = useRef(false)
+  const inventoryKeyHeld = useRef(false)
 
   const playerStore = usePlayerStore()
   const setPlayerStore = (attribute, value) => {
@@ -170,9 +171,11 @@ const Player = ({ position, grid, gridSize }) => {
   const takeDamage = (amount) => {
     updateAnimation("Take Damage")
     animTimer.current = 0.2
-    const newHealth = playerStore.newHealth - amount
+    const newHealth = playerStore.health - amount
+    console.log(playerStore)
     if (newHealth <= 0) {
       console.log("Game Over")
+      window.location.reload()
     }
     else {
       setPlayerStore("health", newHealth)
@@ -204,7 +207,7 @@ const Player = ({ position, grid, gridSize }) => {
   useFrame((state, delta) => {
     if (enemiesRef.current == null) enemiesRef.current = findSceneObjects("enemy")
 
-    const { forward, backward, left, right, typeMode, interact } = getKeys()
+    const { forward, backward, left, right, typeMode, interact, inventory } = getKeys()
 
     // Clear one shot animations
     if (animTimer.current) {
@@ -214,6 +217,21 @@ const Player = ({ position, grid, gridSize }) => {
         if (animName === "Pistol Fire") setAnimName("Pistol Aim")
         else setAnimName("Idle")
       }
+    }
+
+    // Inventory key pressed
+    if (inventory) {
+      if (inventoryKeyHeld.current == false) {
+        if (playerStore.currentWeapon === "pistol") {
+          setPlayerStore("currentWeapon", "desert eagle")
+        } else {
+          setPlayerStore("currentWeapon", "pistol")
+        }
+        inventoryKeyHeld.current = true
+      }
+    }
+    else {
+      inventoryKeyHeld.current = false
     }
 
     // Typemode key pressed
