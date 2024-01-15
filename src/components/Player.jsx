@@ -12,6 +12,7 @@ const Player = ({ position, grid, gridSize }) => {
   const enemiesRef = useRef(null)
   const [, getKeys] = useKeyboardControls()
   const [animName, setAnimName] = useState("Idle")
+  const animTimer = useRef(null)
   
   // Having these variables outside useFrame helps garbage collection
   const playerPos = new THREE.Vector3()
@@ -99,7 +100,105 @@ const Player = ({ position, grid, gridSize }) => {
 
   const updateAnimation = (name) => {
     if (animName === name) return
+    if (animName === "Pistol Fire" && name !== "Pistol Fire") return
+    if (animName === "Take Damage" && name !== "Take Damage") return
     setAnimName(name)
+  }
+
+  const rotateTo = (direction) => {
+    // Rotate to the correct direction
+    const angle = Math.atan2(direction.x, direction.z);
+  
+    // Smooth rotation with slerp
+    const currentRotation = meshRef.current.quaternion.clone();
+    targetRotation.setFromEuler(euler.set(0, angle, 0));
+    lerpedRotation.copy(currentRotation).slerp(targetRotation, 0.1);
+  
+    // Set the rotation of the body
+    meshRef.current.quaternion.copy(lerpedRotation);
+  }
+
+  const movement = (delta, forward, backward, left, right) => {
+    if (animName === "Take Damage") return false
+
+    let dx = 0
+    let dz = 0
+    if (left) dx = -1
+    if (right) dx = 1
+    if (forward) dz = -1
+    if (backward) dz = 1
+
+    if (dx == 0 && dz == 0) return false
+
+    if (dx != 0 && dz != 0) {
+      dx = dx * 0.74
+      dz = dz * 0.74
+    }
+    const speed = 4 * delta
+    dx *= speed
+    dz *= speed
+
+    target.set(
+      ref.current.position.x + dx,
+      ref.current.position.y,
+      ref.current.position.z + dz,
+    )
+
+    const width = 0.25
+    const walkable = canMove(target.x, target.z, width)
+    if (!walkable) {
+      if (dx != 0 && dz != 0){
+        // try sliding along the wall if possible
+        if (canMove(target.x, ref.current.position.z, width)) {
+          target.z = ref.current.position.z
+        } else if (canMove(ref.current.position.x, target.z, width)) {
+          target.x = ref.current.position.x
+        } else {
+          return false
+        }
+      } else {
+        return false
+      }
+    }
+
+    ref.current.position.copy(target)
+    direction.set(dx,0,dz)
+    rotateTo(direction)
+    return true
+  }
+
+  const takeDamage = (amount) => {
+    updateAnimation("Take Damage")
+    animTimer.current = 0.2
+    const newHealth = playerStore.newHealth - amount
+    if (newHealth <= 0) {
+      console.log("Game Over")
+    }
+    else {
+      setPlayerStore("health", newHealth)
+    }
+  }
+
+  const checkFlags = () => {
+    const actionFlag = playerStore.actionFlag
+    // firing at enemy
+    if (actionFlag === "enemyDmg") {
+      const enemy = enemiesRef.current.find(enemy => (enemy.gameid === playerStore.actionId))
+      enemy.actionFlag = "takeDmg"
+      enemy.actionValue = playerStore.actionValue
+
+      setPlayerStore("actionFlag", "")
+      updateAnimation("Pistol Fire")
+      animTimer.current = 0.3
+    } else if (actionFlag === "Shot Missed") {
+      setPlayerStore("actionFlag", "")
+      updateAnimation("Pistol Fire")
+      animTimer.current = 0.3
+    } else if (actionFlag === "Take Damage") {
+      setPlayerStore("actionFlag", "")
+      takeDamage(playerStore.actionValue)
+      animTimer.current = 0.6
+    }
   }
 
   useFrame((state, delta) => {
@@ -107,14 +206,25 @@ const Player = ({ position, grid, gridSize }) => {
 
     const { forward, backward, left, right, typeMode, interact } = getKeys()
 
+    // Clear one shot animations
+    if (animTimer.current) {
+      animTimer.current -= delta
+      if (animTimer.current < 0) {
+        animTimer.current = null
+        if (animName === "Pistol Fire") setAnimName("Pistol Aim")
+        else setAnimName("Idle")
+      }
+    }
+
+    // Typemode key pressed
     if (typeMode) {
       if (modekeyHeld.current == false) {
         if (playerStore.mode === "typing") {
           setPlayerStore("mode", "default")
-          console.log("setting mode to default")
+          //console.log("setting mode to default")
         } else {
           setPlayerStore("mode", "typing")
-          console.log("setting mode to typing")
+          //console.log("setting mode to typing")
         }
         modekeyHeld.current = true
       }
@@ -123,6 +233,7 @@ const Player = ({ position, grid, gridSize }) => {
       modekeyHeld.current = false
     }
     
+    // Player in type mode
     if (playerStore.mode === "typing") {
       // Get list of viable targets
       if (enemiesRef.current) {
@@ -143,82 +254,39 @@ const Player = ({ position, grid, gridSize }) => {
           if (screenY < 10 || screenY > 90 ) return
           targets.push({
             id: enemy.id,
-            enemyid: enemy.gameid,
+            gameid: enemy.gameid,
             name: "testing",
             pos: [screenX, screenY],
           })
         })
 
+        // rotate to current target
+        if (playerStore.currentTarget) {
+          const target = enemiesRef.current.find(target => target.gameid === playerStore.currentTarget)
+          if (target) {
+            const dx = target.position.x - ref.current.position.x
+            const dz = target.position.z - ref.current.position.z
+            direction.set(dx,0,dz)
+            rotateTo(direction)
+          }
+          updateAnimation("Pistol Aim")
+        }
+        else {
+          updateAnimation("Pistol Ready")
+        }
+
         // update player state targets
         setPlayerStore("targets", targets)
       }
 
-      updateAnimation("Pistol Ready")
-      //updateAnimation("Pistol Aim")
-      //updateAnimation("Pistol Fire")
+      checkFlags()
+
       return
     }
 
-    const rotateTo = (direction) => {
-      // Rotate to the correct direction
-      const angle = Math.atan2(direction.x, direction.z);
-    
-      // Smooth rotation with slerp
-      const currentRotation = meshRef.current.quaternion.clone();
-      targetRotation.setFromEuler(euler.set(0, angle, 0));
-      lerpedRotation.copy(currentRotation).slerp(targetRotation, 0.1);
-    
-      // Set the rotation of the body
-      meshRef.current.quaternion.copy(lerpedRotation);
-    }
+    checkFlags()
 
-    const movement = () => {
-      let dx = 0
-      let dz = 0
-      if (left) dx = -1
-      if (right) dx = 1
-      if (forward) dz = -1
-      if (backward) dz = 1
-
-      if (dx == 0 && dz == 0) return
-
-      if (dx != 0 && dz != 0) {
-        dx = dx * 0.74
-        dz = dz * 0.74
-      }
-      const speed = 4 * delta
-      dx *= speed
-      dz *= speed
-
-      target.set(
-        ref.current.position.x + dx,
-        ref.current.position.y,
-        ref.current.position.z + dz,
-      )
-
-      const width = 0.25
-      const walkable = canMove(target.x, target.z, width)
-      if (!walkable) {
-        if (dx != 0 && dz != 0){
-          // try sliding along the wall if possible
-          if (canMove(target.x, ref.current.position.z, width)) {
-            target.z = ref.current.position.z
-          } else if (canMove(ref.current.position.x, target.z, width)) {
-            target.x = ref.current.position.x
-          } else {
-            return false
-          }
-        } else {
-          return false
-        }
-      }
-
-      ref.current.position.copy(target)
-      direction.set(dx,0,dz)
-      rotateTo(direction)
-      return true
-    }
-    const moving = movement()
+    const moving = movement(delta, forward, backward, left, right)
     if (moving) updateAnimation("Jogging")
     else updateAnimation("Idle")
 

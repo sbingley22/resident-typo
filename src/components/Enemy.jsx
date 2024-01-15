@@ -4,6 +4,7 @@ import * as THREE from "three"
 import Pathfinding from 'pathfinding'
 import { Zombie } from "./models/Zombie"
 import ShadowBlob from "./models/ShadowBlob"
+import usePlayerStore from "./stores/PlayerStore"
 
 const Enemy = ({ index, position, grid, gridSize }) => {
   const ref = useRef()
@@ -12,8 +13,28 @@ const Enemy = ({ index, position, grid, gridSize }) => {
   const { scene } = useThree();
 
   const [animName, setAnimName] = useState("Idle")
+  const animTimer = useRef(null)
+  const attackTimer = useRef(null)
   const savedPath = useRef(null)
   const pathFrames = useRef(Math.round(Math.random()*60))
+
+  const playerStore = usePlayerStore()
+  const setPlayerStore = (attribute, value) => {
+    usePlayerStore.setState( state => {
+      const newState = {...state}
+      newState[attribute] = value
+      return newState
+    })
+  }
+  const hitPlayer = (flag, value, id) => {
+    usePlayerStore.setState( state => {
+      const newState = {...state}
+      newState["actionFlag"] = flag
+      newState["actionValue"] = value
+      newState["actionId"] = id
+      return newState
+    })
+  }
   
   // Pathfinding
   const finder = new Pathfinding.AStarFinder({
@@ -53,9 +74,94 @@ const Enemy = ({ index, position, grid, gridSize }) => {
     })
     return object
   }
+  
+  const rotateTo = (direction) => {
+    // Rotate to the correct direction
+    const angle = Math.atan2(direction.x, direction.z);
+  
+    // Smooth rotation with slerp
+    const currentRotation = meshRef.current.quaternion.clone();
+    targetRotation.setFromEuler(euler.set(0, angle, 0));
+    lerpedRotation.copy(currentRotation).slerp(targetRotation, 0.1);
+  
+    // Set the rotation of the body
+    meshRef.current.quaternion.copy(lerpedRotation);
+  }
+
+  const pathfiner = (pos, playerPos) => {
+    const path = findPath(
+      [pos.x,
+      pos.z], 
+      [playerPos.x, 
+      playerPos.z]
+    )
+    return path
+  }
+
+  const tryAttack = (delta) => {
+    if (animName === "Attack Swipe") return
+    if (animName === "Take Damage2") return
+
+    // Start an attack
+    if (attackTimer.current === null) {
+      attackTimer.current = 0.3
+      updateAnimation("Attack Swipe")
+      animTimer.current = 0.8
+    }
+    else {
+      // Update attack timer
+      attackTimer.current -= delta
+      if (attackTimer.current <= 0) {
+        // Attack frame
+        attackTimer.current = null
+        hitPlayer("Take Damage", 20, null)
+      }
+    }
+  }
+
+  const movement = (delta) => {
+    // Get distance between this and target
+    const pos = ref.current.position
+    const playerPos = playerRef.current.position
+    const dist = pos.distanceTo(playerPos)
+    if (dist < 0.75) {
+      // Try attacking
+      tryAttack(delta)
+      return false
+    }
+
+    // Only do pathfinding once every n frames
+    pathFrames.current += 1
+    if (pathFrames.current > -1) {
+      pathFrames.current = 0
+      savedPath.current = pathfiner(pos, playerPos)
+    }
+    
+    if (savedPath.current == null) return false
+    if (savedPath.current.length < 2) return false
+
+    // Pop off the path coord when it has been reached
+    const posInGrid = convertWorldToGrid([pos.x,pos.z])
+    if (posInGrid[0] == savedPath.current[0][0] && posInGrid[1] == savedPath.current[0][1]) {
+      savedPath.current = savedPath.current.slice(1)
+    }
+
+    // Take a step towards the next path position
+    const nextStep = convertGridToWorld(savedPath.current[0])
+    const speed = 2 * delta
+    targetPosition.set(nextStep[0], 0, nextStep[1])
+    const direction = targetPosition.sub(pos)
+    direction.normalize().multiplyScalar(speed)
+    const newPosition = pos.add(direction)
+    ref.current.position.copy(newPosition)
+
+    rotateTo(direction)
+    return true
+  }
 
   const updateAnimation = (name) => {
     if (animName === name) return
+    if (animName === "Take Damage2" && name !== "Take Damage2") return
     setAnimName(name)
   }
 
@@ -64,6 +170,7 @@ const Enemy = ({ index, position, grid, gridSize }) => {
   const targetRotation = new THREE.Quaternion()
   const lerpedRotation = new THREE.Quaternion()
   const euler = new THREE.Euler(0,0,0)
+
   useFrame((state, delta) => {
     if (playerRef.current == null) playerRef.current = findSceneObject("player")
     //console.log(playerRef.current)
@@ -72,65 +179,37 @@ const Enemy = ({ index, position, grid, gridSize }) => {
     const status = ref.current.position.y < -998 ? "inactive" : "active"
     if (status === "inactive") return
 
-    const rotateTo = (direction) => {
-      // Rotate to the correct direction
-      const angle = Math.atan2(direction.x, direction.z);
-    
-      // Smooth rotation with slerp
-      const currentRotation = meshRef.current.quaternion.clone();
-      targetRotation.setFromEuler(euler.set(0, angle, 0));
-      lerpedRotation.copy(currentRotation).slerp(targetRotation, 0.1);
-    
-      // Set the rotation of the body
-      meshRef.current.quaternion.copy(lerpedRotation);
-    }
-    
-    const pathfiner = (pos, playerPos) => {
-      const path = findPath(
-        [pos.x,
-        pos.z], 
-        [playerPos.x, 
-        playerPos.z]
-      )
-      return path
-    }
-    const movement = () => {
-      // get distance between this and target
-      const pos = ref.current.position
-      const playerPos = playerRef.current.position
-      const dist = pos.distanceTo(playerPos)
-      if (dist < 0.75) return false
-
-
-      // Only do pathfinding once every n frames
-      pathFrames.current += 1
-      if (pathFrames.current > -1) {
-        pathFrames.current = 0
-        savedPath.current = pathfiner(pos, playerPos)
+    // Clear one shot animations
+    if (animTimer.current) {
+      animTimer.current -= delta
+      if (animTimer.current < 0) {
+        animTimer.current = null
+        setAnimName("Idle")
       }
+    }
+
+    const actionFlag = ref.current.actionFlag
+    const actionValue = ref.current.actionValue
+    if (actionFlag === "takeDmg") {
+      //console.log("Taking damaged: ", actionValue)
+      ref.current.actionFlag = ""
+      ref.current.health -= actionValue
+      attackTimer.current = null
       
-      if (savedPath.current == null) return false
-      if (savedPath.current.length < 2) return false
-
-      // Pop off the path coord when it has been reached
-      const posInGrid = convertWorldToGrid([pos.x,pos.z])
-      if (posInGrid[0] == savedPath.current[0][0] && posInGrid[1] == savedPath.current[0][1]) {
-        savedPath.current = savedPath.current.slice(1)
+      if (ref.current.health <= 0) {
+        // target killed
+        ref.current.position.y = -999
+        return
+      } else {
+        updateAnimation("Take Damage2")
+        animTimer.current = 0.75
       }
-
-      // Take a step towards the next path position
-      const nextStep = convertGridToWorld(savedPath.current[0])
-      const speed = 2 * delta
-      targetPosition.set(nextStep[0], 0, nextStep[1])
-      const direction = targetPosition.sub(pos)
-      direction.normalize().multiplyScalar(speed)
-      const newPosition = pos.add(direction)
-      ref.current.position.copy(newPosition)
-
-      rotateTo(direction)
-      return true
     }
-    const moving = movement()
+
+    if (animName == "Take Damage2") return
+    if (animName == "Attack Swipe") return
+    
+    const moving = movement(delta)
     if (moving) {
       updateAnimation("Staggering")
     }
@@ -148,6 +227,8 @@ const Enemy = ({ index, position, grid, gridSize }) => {
       name="enemy"
       health={0}
       gameid={"enemy: "+index}
+      actionFlag=""
+      actionValue=""
     >
       <group
         ref={meshRef}

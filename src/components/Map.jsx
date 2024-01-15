@@ -227,7 +227,6 @@ const Map = ({ map, options }) => {
       
       if (foundSpare) {
         spawnCount.current -= 1
-        console.log(enemiesRef.current)
       }
     }
 

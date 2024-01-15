@@ -9,6 +9,8 @@ export function Jill(props) {
   const { nodes, materials, animations } = useGLTF('/JillValentine-v1.0.glb')
   const { actions } = useAnimations(animations, group)
 
+  //console.log(actions)
+
   // Change animation
   useEffect(() => {
       // Change Animation

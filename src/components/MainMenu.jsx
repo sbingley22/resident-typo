@@ -15,6 +15,10 @@ const MainMenu = ({setSelection, options, setOptions, maps, setMap}) => {
   }
   const playClicked = () => {
     setShowOption(1)
+
+    //for testing only!
+    mapClicked(maps[0])
+    difficultyClicked(1)
   }
   const quitClicked = () => {
     console.log("Quiting")

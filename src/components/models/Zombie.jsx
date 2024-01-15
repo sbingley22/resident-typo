@@ -11,6 +11,8 @@ export function Zombie(props) {
   const {scene, materials, animations, nodes} = useSkinnedMeshClone("/zombiegirl-1.glb")
   const { actions } = useAnimations(animations, group)
 
+  //console.log(actions)
+
   // Change animation
   useEffect(() => {
       // Change Animation
