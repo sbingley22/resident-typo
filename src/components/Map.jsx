@@ -195,8 +195,10 @@ const Map = ({ map, options }) => {
 
   const grid = useRef(staticGrid.current)
   const enemiesRef = useRef(null)
-  const spawnTimer = useRef(2)
-  const spawnCount = useRef(3)
+  const spawnCount = useRef(4)
+  const spawnTimings = useRef([1,3,5,5])
+  const spawnTimer = useRef(spawnTimings.current[0])
+  const spawnIndex = useRef(0)
 
   const enemies = [0,1,2,3,4]
   
@@ -206,27 +208,32 @@ const Map = ({ map, options }) => {
     spawnTimer.current -= delta
     if (spawnTimer.current < 0 && spawnCount.current > 0) {
       // spawn enemies
-      spawnTimer.current = 5
+      spawnTimings.current = spawnTimings.current.slice(1)
+      if (spawnTimings.current.length > 0) spawnTimer.current = spawnTimings.current[0]
+      else spawnTimer.current = 5
       // find an unused enemy to spawn
       let foundSpare = false
-      enemiesRef.current.forEach( enemy => {
-        if (foundSpare) return
+      for (let index = 0; index < enemiesRef.current.length; index++) {
+        const enemy = enemiesRef.current[index];
+        if (foundSpare) break
         if (enemy.health <= 0) {
           //reuse this enemy
           foundSpare = true
-          const spawnIndex = 0
           enemy.position.set(
-            enemySpawn[spawnIndex].pos[0],
-            enemySpawn[spawnIndex].pos[1],
-            enemySpawn[spawnIndex].pos[2],
+            enemySpawn[spawnIndex.current].pos[0],
+            enemySpawn[spawnIndex.current].pos[1],
+            enemySpawn[spawnIndex.current].pos[2],
           )
           enemy.health = 100
-          return
+          break
         }
-      })
+      }
       
       if (foundSpare) {
         spawnCount.current -= 1
+        spawnIndex.current += 1
+        if (enemySpawn.length <= spawnIndex.current) spawnIndex.current = 0
+        console.log(spawnIndex.current)
       }
     }
 

@@ -202,7 +202,7 @@ const Enemy = ({ index, position, grid, gridSize }) => {
         return
       } else {
         updateAnimation("Take Damage2")
-        animTimer.current = 0.75
+        animTimer.current = 0.8
       }
     }
 

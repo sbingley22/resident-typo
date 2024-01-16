@@ -169,10 +169,12 @@ const Player = ({ position, grid, gridSize }) => {
   }
 
   const takeDamage = (amount) => {
+    amount = 1 // TESTING ONLY
     updateAnimation("Take Damage")
     animTimer.current = 0.2
     const newHealth = playerStore.health - amount
-    console.log(playerStore)
+    //console.log(playerStore)
+
     if (newHealth <= 0) {
       console.log("Game Over")
       window.location.reload()
