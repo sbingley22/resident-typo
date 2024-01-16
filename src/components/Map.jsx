@@ -233,7 +233,6 @@ const Map = ({ map, options }) => {
         spawnCount.current -= 1
         spawnIndex.current += 1
         if (enemySpawn.length <= spawnIndex.current) spawnIndex.current = 0
-        console.log(spawnIndex.current)
       }
     }
 
@@ -265,6 +264,7 @@ const Map = ({ map, options }) => {
         position={playerPos}
         grid={staticGrid}
         gridSize={map.gridSize}
+        options={options}
       />
 
       { enemies.map( (enemy, index) => (

@@ -5,8 +5,9 @@ import * as THREE from "three"
 import usePlayerStore from "./stores/PlayerStore"
 import { Jill } from "./models/Jill"
 import ShadowBlob from "./models/ShadowBlob"
+import words from "../assets/words.json"
 
-const Player = ({ position, grid, gridSize }) => {
+const Player = ({ position, grid, gridSize, options }) => {
   const ref = useRef()
   const meshRef = useRef()
   const enemiesRef = useRef(null)
@@ -206,6 +207,15 @@ const Player = ({ position, grid, gridSize }) => {
     }
   }
 
+  const getWord = () => {
+    let word = null
+
+    const randomIndex = Math.floor(Math.random() * words[options.wordsList].length)
+    word = words[options.wordsList][randomIndex]
+
+    return word
+  }
+
   useFrame((state, delta) => {
     if (enemiesRef.current == null) enemiesRef.current = findSceneObjects("enemy")
 
@@ -272,10 +282,17 @@ const Player = ({ position, grid, gridSize }) => {
 
           if (screenX < 10 || screenX > 90 ) return
           if (screenY < 10 || screenY > 90 ) return
+
+          // Do not change word if target already exists
+          let word = null
+          const targetExists = playerStore.targets.find(target => target.gameid === enemy.gameid)
+          if (targetExists) word = targetExists.name 
+          else word = getWord()
+
           targets.push({
             id: enemy.id,
             gameid: enemy.gameid,
-            name: "testing",
+            name: word,
             pos: [screenX, screenY],
           })
         })

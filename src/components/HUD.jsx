@@ -71,7 +71,7 @@ const HUD = () => {
         }
       } else {
         // missed shot
-        console.log("Missed Letter")
+        //console.log("Missed Letter")
         setPlayerStore("Shot Missed")
         decrementAmmo()
       }
