@@ -19,7 +19,7 @@ const MainMenu = ({setSelection, options, setOptions, maps, setMap}) => {
     setShowOption(1)
 
     //for testing only!
-    mapClicked(maps[0])
+    mapClicked(maps[1])
     difficultyClicked(0)
   }
   const quitClicked = () => {

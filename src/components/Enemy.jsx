@@ -3,6 +3,7 @@ import { useRef, useState } from "react"
 import * as THREE from "three"
 import Pathfinding from 'pathfinding'
 import { Zombie } from "./models/Zombie"
+import { ZombieMan } from "./models/ZombieMan"
 import ShadowBlob from "./models/ShadowBlob"
 import usePlayerStore from "./stores/PlayerStore"
 
@@ -235,9 +236,15 @@ const Enemy = ({ index, position, grid, gridSize, options }) => {
         ref={meshRef}
         position={[0.25,0,0.25]}
       >
-        <Zombie 
+        { index % 2 == 0 ? 
+          <ZombieMan 
           animName={animName}
-        />
+          />
+          :
+          <Zombie 
+          animName={animName}
+          />
+        }
         <ShadowBlob offset={0.001 * index} />
       </group>
     </group>

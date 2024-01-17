@@ -232,8 +232,8 @@ const Map = ({ map, options }) => {
 
   const grid = useRef(staticGrid.current)
   const enemiesRef = useRef(null)
-  const spawnCount = useRef(4)
-  const spawnTimings = useRef([1,3,5,5])
+  const spawnCount = useRef(19)
+  const spawnTimings = useRef([1,3, 15,3,3, 20,1,1,1, 20,1,1,1,1, 15,1,1,1,1])
   const spawnTimer = useRef(spawnTimings.current[0])
   const spawnIndex = useRef(0)
 
