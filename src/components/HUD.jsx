@@ -60,7 +60,7 @@ const HUD = () => {
           //shoot enemy
           let dmg = 50
           if (currentWeapon === "pistol") {
-            dmg = 25
+            dmg = 50
             decrementAmmo()
           } else if (currentWeapon === "desert eagle") {
             dmg = 100

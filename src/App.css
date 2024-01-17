@@ -14,6 +14,31 @@ html, body {
   margin: 0;
 }
 
+button {
+  border-radius: 5px;
+  align-self: center;
+}
+
+.main-menu {
+  display: grid;
+  justify-content: center;
+  align-items: end;
+}
+
+.main-menu div {
+  padding: 20px;
+}
+
+.main-menu select {
+  margin-left: 5px;
+  margin-right: 10px;
+}
+
+.title {
+  align-self: start;
+  padding: 20px;
+}
+
 .HUD {
   position: absolute;
   width: 100vw;

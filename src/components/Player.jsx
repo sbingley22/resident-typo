@@ -7,7 +7,7 @@ import { Jill } from "./models/Jill"
 import ShadowBlob from "./models/ShadowBlob"
 import words from "../assets/words.json"
 
-const Player = ({ position, grid, gridSize, options }) => {
+const Player = ({ position, grid, gridSize, options, barrels }) => {
   const ref = useRef()
   const meshRef = useRef()
   const enemiesRef = useRef(null)
@@ -169,6 +169,20 @@ const Player = ({ position, grid, gridSize, options }) => {
     return true
   }
 
+  const pickupAmmo = () => {
+    for (let index = 0; index < barrels.current.length; index++) {
+      const element = barrels.current[index];
+      const v = [element.pos[0]-ref.current.position.x, element.pos[2]-ref.current.position.z]
+      const distance = Math.sqrt(v[0] **2) + (v[1] **2)
+      if (distance > 1.5) return
+      
+      const newWeapons = {...playerStore.weapons}
+      newWeapons["pistol"].ammo = 20
+      newWeapons["desert eagle"].ammo = 5
+      setPlayerStore("weapons", newWeapons)
+    }
+  }
+
   const takeDamage = (amount) => {
     amount = 1 // TESTING ONLY
     updateAnimation("Take Damage")
@@ -191,7 +205,8 @@ const Player = ({ position, grid, gridSize, options }) => {
     if (actionFlag === "enemyDmg") {
       const enemy = enemiesRef.current.find(enemy => (enemy.gameid === playerStore.actionId))
       enemy.actionFlag = "takeDmg"
-      enemy.actionValue = playerStore.actionValue
+      const damage = playerStore.actionValue
+      enemy.actionValue = damage
 
       setPlayerStore("actionFlag", "")
       updateAnimation("Pistol Fire")
@@ -337,6 +352,8 @@ const Player = ({ position, grid, gridSize, options }) => {
       state.camera.lookAt(ref.current.position)
     }
     updateCamera()
+
+    pickupAmmo()
 
     if (interact) {
       console.log(ref.current)

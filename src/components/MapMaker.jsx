@@ -2,6 +2,18 @@ import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid'
 
 const items = {
+  barrel: {
+    color: "#552233",
+    size: [1,1],
+  },
+  chair: {
+    color: "#883355",
+    size: [1,1],
+  },
+  desk: {
+    color: "#882233",
+    size: [2,3],
+  },
   delete: {
     color: "grey",
     size: [1,1],

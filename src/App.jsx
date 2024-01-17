@@ -11,7 +11,7 @@ function App() {
   const [options, setOptions] = useState({
     difficulty: 1,
     shadows: false,
-    wordsList: "normal",
+    wordsList: "coding",
   })
 
   return (

@@ -6,7 +6,7 @@ import { Zombie } from "./models/Zombie"
 import ShadowBlob from "./models/ShadowBlob"
 import usePlayerStore from "./stores/PlayerStore"
 
-const Enemy = ({ index, position, grid, gridSize }) => {
+const Enemy = ({ index, position, grid, gridSize, options }) => {
   const ref = useRef()
   const meshRef = useRef()
   const playerRef = useRef(null)
@@ -17,6 +17,7 @@ const Enemy = ({ index, position, grid, gridSize }) => {
   const attackTimer = useRef(null)
   const savedPath = useRef(null)
   const pathFrames = useRef(Math.round(Math.random()*60))
+  const baseSpeed = options.difficulty == 0 ? 1 : 2
 
   const playerStore = usePlayerStore()
   const setPlayerStore = (attribute, value) => {
@@ -148,7 +149,7 @@ const Enemy = ({ index, position, grid, gridSize }) => {
 
     // Take a step towards the next path position
     const nextStep = convertGridToWorld(savedPath.current[0])
-    const speed = 2 * delta
+    const speed = baseSpeed * delta
     targetPosition.set(nextStep[0], 0, nextStep[1])
     const direction = targetPosition.sub(pos)
     direction.normalize().multiplyScalar(speed)

@@ -1,7 +1,9 @@
 import { useState } from "react"
+import words from '../assets/words.json'
 
 const MainMenu = ({setSelection, options, setOptions, maps, setMap}) => {
   const [showOption, setShowOption] = useState(0)
+  const [wordsList, setWordsList] = useState("normal")
 
   const mapClicked = (map) => {
     setMap(map)
@@ -18,7 +20,7 @@ const MainMenu = ({setSelection, options, setOptions, maps, setMap}) => {
 
     //for testing only!
     mapClicked(maps[0])
-    difficultyClicked(1)
+    difficultyClicked(0)
   }
   const quitClicked = () => {
     console.log("Quiting")
@@ -39,10 +41,17 @@ const MainMenu = ({setSelection, options, setOptions, maps, setMap}) => {
     newOptions.shadows = !options.shadows
     setOptions(newOptions)
   }
+  const optionsWordsListChanged = (event) => {
+    const currentWordsList = event.target.value
+    setWordsList(currentWordsList)
+    const newOptions = {...options}
+    newOptions.wordsList = currentWordsList
+    setOptions(newOptions)
+  }
   
   return (
     <div className="main-menu">
-      <h1>Resident Typo</h1>
+      <h1 className="title">Resident Typo</h1>
       {showOption==0 &&
         <div>
           <button onClick={()=>playClicked()} >
@@ -88,6 +97,16 @@ const MainMenu = ({setSelection, options, setOptions, maps, setMap}) => {
           <button onClick={()=>returnClicked()} >
             Return to menu
           </button>
+          <label>
+          Word List: 
+          <select value={wordsList} onChange={optionsWordsListChanged}>
+            {Object.keys(words).map((m) => (
+              <option key={m} value={m}>
+                {m}
+              </option>
+            ))}
+          </select>
+        </label>
           <button onClick={()=>optionsShadowClicked()} >
             Shadows: {options.shadows ? "On" : "Off"}
           </button>

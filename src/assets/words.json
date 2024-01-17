@@ -15,5 +15,15 @@
     "guts",
     "walking",
     "dead"
+  ],
+  "coding": [
+    "function()",
+    "array[]",
+    "multiply*",
+    "{jsx}",
+    "<html>",
+    "#comment",
+    "semicolon;",
+    "'string'"
   ]
 }

@@ -12,13 +12,20 @@ import { FileCabinet } from './models/File-cabinet'
 import Wall from './models/Wall'
 import Wall2 from './models/Wall2'
 import WallBig from './models/WallBig'
+import { BrickWall } from './models/Brick-wall'
+import { Barrel } from './models/Barrel'
+import { Chair } from './models/Chair'
+import { Desk } from './models/Desk'
 
 const Map = ({ map, options }) => {
   const pointLights = []
   const spotLights = []
   const playerPos = [0,0,0]
   const enemySpawn = []
+  const barrels = useRef([])
   const boxes = useRef([])
+  const chairs = useRef([])
+  const desks = useRef([])
   const fileCabinets = useRef([])
   const walls = useRef([])
   const walls2 = useRef([])
@@ -31,7 +38,27 @@ const Map = ({ map, options }) => {
 
   const loadMap = () => {
     map.items.forEach( item => {
-      if (item.name == "cube"){
+      if (item.name == "barrel"){
+        barrels.current.push({
+          pos: [
+            item.pos[1]*map.gridSize, 
+            0, 
+            item.pos[0]*map.gridSize,
+          ],
+          rotation: item.rotation,
+          size: [0.5, 0, 0.5]
+        })
+      } else if (item.name == "chair"){
+        chairs.current.push({
+          pos: [
+            item.pos[1]*map.gridSize, 
+            0, 
+            item.pos[0]*map.gridSize,
+          ],
+          rotation: item.rotation,
+          size: [0.5,0,0.5],
+        })
+      } else if (item.name == "cube"){
         boxes.current.push({
           pos: [
             item.pos[1]*map.gridSize, 
@@ -40,6 +67,16 @@ const Map = ({ map, options }) => {
           ],
           rotation: item.rotation,
           size: [1, 1, 1]
+        })
+      } else if (item.name == "desk"){
+        desks.current.push({
+          pos: [
+            item.pos[1]*map.gridSize, 
+            0, 
+            item.pos[0]*map.gridSize,
+          ],
+          rotation: item.rotation,
+          size: [0.5,0,1],
         })
       } else if (item.name == "enemy"){
         enemySpawn.push({
@@ -252,7 +289,7 @@ const Map = ({ map, options }) => {
   //console.log("Map rerender")
   return (
     <>
-      <ambientLight intensity={0.1} />
+      <ambientLight intensity={0.2} />
       { pointLights.map( (light, index) => (
         <pointLight key={index} intensity={50} position={light.pos} castShadow={options.shadows?true:false} />
       ))}
@@ -265,6 +302,7 @@ const Map = ({ map, options }) => {
         grid={staticGrid}
         gridSize={map.gridSize}
         options={options}
+        barrels={barrels}
       />
 
       { enemies.map( (enemy, index) => (
@@ -274,11 +312,21 @@ const Map = ({ map, options }) => {
           position={[-999,-999,-999]}
           grid={grid}
           gridSize={map.gridSize}
+          options={options}
         />
       ))}
             
       <Ground geo={threePlane} position={[12, 0, 12]} scale={60} />
       {/* <GridHelper grid={grid} gridSize={map.gridSize}/> */}
+      
+      { barrels.current.map( (barrel, index) => (
+        <Barrel 
+          key={index}
+          position={barrel.pos}
+          rotation={barrel.rotation}
+          size={barrel.size}
+        />
+      ))}
 
       { boxes.current.map( (box, index) => (
         <Box 
@@ -288,6 +336,24 @@ const Map = ({ map, options }) => {
           rotation={box.rotation}
           size={box.size}
           color={box.color}
+        />
+      ))}
+      
+      { chairs.current.map( (chair, index) => (
+        <Chair 
+          key={index}
+          position={chair.pos}
+          rotation={chair.rotation}
+          size={chair.size}
+        />
+      ))}
+      
+      { desks.current.map( (desk, index) => (
+        <Desk 
+          key={index}
+          position={desk.pos}
+          rotation={desk.rotation}
+          size={desk.size}
         />
       ))}
       
@@ -321,9 +387,8 @@ const Map = ({ map, options }) => {
       ))}
 
       { wallsBig.current.map( (wall, index) => (
-        <WallBig 
+        <BrickWall 
           key={index}
-          geo={threeBox}
           position={wall.pos}
           rotation={wall.rotation}
           size={wall.size}
