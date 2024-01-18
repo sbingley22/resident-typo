@@ -7,7 +7,7 @@ import { Jill } from "./models/Jill"
 import ShadowBlob from "./models/ShadowBlob"
 import words from "../assets/words.json"
 
-const Player = ({ position, grid, gridSize, options, barrels }) => {
+const Player = ({ position, grid, gridSize, options, setSelection, barrels }) => {
   const ref = useRef()
   const meshRef = useRef()
   const enemiesRef = useRef(null)
@@ -192,7 +192,7 @@ const Player = ({ position, grid, gridSize, options, barrels }) => {
 
     if (newHealth <= 0) {
       console.log("Game Over")
-      window.location.reload()
+      setSelection(3)
     }
     else {
       setPlayerStore("health", newHealth)

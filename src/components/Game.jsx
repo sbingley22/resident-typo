@@ -26,7 +26,7 @@ function Game({ setSelection, map, setMap, options, setOptions}) {
           <Suspense>
             <Stars />
 
-            <Map map={map} options={options} />
+            <Map map={map} options={options} setSelection={setSelection} />
 
             <Stats />
           </Suspense>

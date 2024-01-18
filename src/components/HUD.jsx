@@ -36,6 +36,8 @@ const HUD = () => {
 
   const typing = (e) => {
     const letter = e.target.value
+
+    if (mode !== "typing") return
     
     if (currentTarget) {
       const target = targets.find(target => (target.gameid === currentTarget))

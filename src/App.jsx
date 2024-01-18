@@ -14,6 +14,10 @@ function App() {
     wordsList: "coding",
   })
 
+  const returnToMenu = () => {
+    setSelection(0)
+  }
+
   return (
     <div>
       {selection==0 && 
@@ -40,6 +44,18 @@ function App() {
           maps={maps}
           setMap={setMap}
         />
+      }
+      {selection==3 &&
+        <div className='game-over'>
+          <h1 className='title'>Game Over!</h1>
+          <button onClick={returnToMenu}>Back to menu</button>
+        </div>
+      }
+      {selection==4 &&
+        <div className='game-over survivor'>
+          <h1 className='title'>You Survived!</h1>
+          <button onClick={returnToMenu}>Back to menu</button>
+        </div>
       }
     </div>
   )

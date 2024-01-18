@@ -17,7 +17,7 @@ import { Barrel } from './models/Barrel'
 import { Chair } from './models/Chair'
 import { Desk } from './models/Desk'
 
-const Map = ({ map, options }) => {
+const Map = ({ map, options, setSelection }) => {
   const pointLights = []
   const spotLights = []
   const playerPos = [0,0,0]
@@ -232,7 +232,7 @@ const Map = ({ map, options }) => {
 
   const grid = useRef(staticGrid.current)
   const enemiesRef = useRef(null)
-  const spawnCount = useRef(19)
+  const spawnCount = useRef(2)
   const spawnTimings = useRef([1,3, 15,3,3, 20,1,1,1, 20,1,1,1,1, 15,1,1,1,1])
   const spawnTimer = useRef(spawnTimings.current[0])
   const spawnIndex = useRef(0)
@@ -243,6 +243,11 @@ const Map = ({ map, options }) => {
     if (enemiesRef.current == null) enemiesRef.current = findSceneObjects("enemy")
 
     spawnTimer.current -= delta
+    if (spawnCount.current <= 0) {
+      if (!enemiesRef.current.find(enemy => enemy.health > 0)) {
+        setSelection(4)
+      }
+    }
     if (spawnTimer.current < 0 && spawnCount.current > 0) {
       // spawn enemies
       spawnTimings.current = spawnTimings.current.slice(1)
@@ -302,6 +307,7 @@ const Map = ({ map, options }) => {
         grid={staticGrid}
         gridSize={map.gridSize}
         options={options}
+        setSelection={setSelection} 
         barrels={barrels}
       />
 
