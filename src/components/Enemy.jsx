@@ -13,7 +13,7 @@ const Enemy = ({ index, position, grid, gridSize, options }) => {
   const playerRef = useRef(null)
   const { scene } = useThree();
 
-  const [animName, setAnimName] = useState("Idle")
+  const animName = useRef("Idle")
   const animTimer = useRef(null)
   const attackTimer = useRef(null)
   const savedPath = useRef(null)
@@ -101,8 +101,8 @@ const Enemy = ({ index, position, grid, gridSize, options }) => {
   }
 
   const tryAttack = (delta) => {
-    if (animName === "Attack Swipe") return
-    if (animName === "Take Damage2") return
+    if (animName.current === "Attack Swipe") return
+    if (animName.current === "Take Damage2") return
 
     // Start an attack
     if (attackTimer.current === null) {
@@ -162,9 +162,10 @@ const Enemy = ({ index, position, grid, gridSize, options }) => {
   }
 
   const updateAnimation = (name) => {
-    if (animName === name) return
-    if (animName === "Take Damage2" && name !== "Take Damage2") return
-    setAnimName(name)
+    //console.log(animName.current, name)
+    if (animName.current === name) return
+    if (animName.current === "Take Damage2" && name !== "Take Damage2") return
+    animName.current = name
   }
 
   // Having these variables outside useFrame helps garbage collection
@@ -186,7 +187,7 @@ const Enemy = ({ index, position, grid, gridSize, options }) => {
       animTimer.current -= delta
       if (animTimer.current < 0) {
         animTimer.current = null
-        setAnimName("Idle")
+        animName.current = "Idle"
       }
     }
 
@@ -208,15 +209,15 @@ const Enemy = ({ index, position, grid, gridSize, options }) => {
       }
     }
 
-    if (animName == "Take Damage2") return
-    if (animName == "Attack Swipe") return
+    if (animName.current == "Take Damage2") return
+    if (animName.current == "Attack Swipe") return
     
     const moving = movement(delta)
     if (moving) {
-      updateAnimation("Staggering")
+      if (animTimer.current <= 0) updateAnimation("Staggering")
     }
     else {
-      updateAnimation("Idle")
+      if (animTimer.current <= 0) updateAnimation("Idle")
     }
 
   })

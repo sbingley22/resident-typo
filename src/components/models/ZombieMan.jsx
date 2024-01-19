@@ -7,6 +7,7 @@ Command: npx gltfjsx@6.2.16 public/ZombieMan.glb -s
 import { useEffect, useRef } from 'react'
 import { useGLTF, useAnimations } from '@react-three/drei'
 import { useSkinnedMeshClone } from './SkinnedMeshClone'
+import { useFrame } from '@react-three/fiber'
 
 export function ZombieMan(props) {
   const group = useRef()
@@ -14,18 +15,19 @@ export function ZombieMan(props) {
   // Custom hook useSkinnedMeshClone allows a skinnedMesh with primitives to be reused. Without out this only one mesh will be displayed
   const {scene, materials, animations, nodes} = useSkinnedMeshClone("/ZombieMan.glb")
   const { actions } = useAnimations(animations, group)
-
   //console.log(actions)
   //console.log(nodes)
 
   // Change animation
-  useEffect(() => {
-      // Change Animation
-      actions[props.animName].reset().fadeIn(0.5).play()
-
-      // In clean-up fade it out
-      return () => actions[props.animName].fadeOut(0.5)
-  }, [props.animName, actions])
+  const animation = useRef(props.animName.current)
+  useFrame( (state, delta) => {
+    //console.log(props.animName.current, animation.current)
+    if (animation.current != props.animName.current) {
+      actions[animation.current].fadeOut(0.5)
+      actions[props.animName.current].reset().fadeIn(0.5).play()
+      animation.current = (props.animName.current)
+    }
+  })
 
   return (
     <group ref={group} {...props} dispose={null}>

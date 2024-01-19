@@ -12,7 +12,7 @@ const Player = ({ position, grid, gridSize, options, setSelection, barrels }) =>
   const meshRef = useRef()
   const enemiesRef = useRef(null)
   const [, getKeys] = useKeyboardControls()
-  const [animName, setAnimName] = useState("Idle")
+  const animName = useRef("Idle")
   const animTimer = useRef(null)
   
   // Having these variables outside useFrame helps garbage collection
@@ -104,7 +104,7 @@ const Player = ({ position, grid, gridSize, options, setSelection, barrels }) =>
     if (animName === name) return
     if (animName === "Pistol Fire" && name !== "Pistol Fire") return
     if (animName === "Take Damage" && name !== "Take Damage") return
-    setAnimName(name)
+    animName.current = name
   }
 
   const rotateTo = (direction) => {
@@ -241,8 +241,8 @@ const Player = ({ position, grid, gridSize, options, setSelection, barrels }) =>
       animTimer.current -= delta
       if (animTimer.current < 0) {
         animTimer.current = null
-        if (animName === "Pistol Fire") setAnimName("Pistol Aim")
-        else setAnimName("Idle")
+        if (animName === "Pistol Fire") animName.current = "Pistol Aim"
+        else animName.current = "Idle"
       }
     }
 
@@ -339,8 +339,12 @@ const Player = ({ position, grid, gridSize, options, setSelection, barrels }) =>
     checkFlags()
 
     const moving = movement(delta, forward, backward, left, right)
-    if (moving) updateAnimation("Jogging")
-    else updateAnimation("Idle")
+    if (moving) {
+      if (animTimer.current <= 0) updateAnimation("Jogging")
+    }
+    else {
+      if (animTimer.current <= 0) updateAnimation("Idle")
+    }
 
     const updateCamera = () => {
       camPos.set(

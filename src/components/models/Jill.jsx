@@ -1,25 +1,38 @@
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable react/prop-types */
-import { useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useGLTF, useAnimations } from '@react-three/drei'
 import { useSkinnedMeshClone } from './SkinnedMeshClone'
+import { useFrame } from '@react-three/fiber'
 
 export function Jill(props) {
   const group = useRef()
   const { nodes, materials, animations } = useGLTF('/JillValentine-v1.0.glb')
   const { actions } = useAnimations(animations, group)
-
   //console.log(actions)
 
   // Change animation
-  useEffect(() => {
-      // Change Animation
-      actions[props.animName].reset().fadeIn(0.5).play()
+  // useEffect(() => {
+  //     // Change Animation
+  //     actions[props.animName].reset().fadeIn(0.5).play()
 
-      // In clean-up fade it out
-      return () => actions[props.animName].fadeOut(0.5)
-  }, [props.animName, actions])
+  //     // In clean-up fade it out
+  //     return () => actions[props.animName].fadeOut(0.5)
+  // }, [props.animName, actions])
 
+  // Use ref instead of state to update animation to prevent
+  // rerendering of Player component
+  const animation = useRef(props.animName.current)
+  useFrame( (state, delta) => {
+    //console.log(props.animName.current, animation.current)
+    if (animation.current != props.animName.current) {
+      actions[animation.current].fadeOut(0.5)
+      actions[props.animName.current].reset().fadeIn(0.5).play()
+      animation.current = (props.animName.current)
+    }
+  })
+
+  //console.log("Jill Model")
   return (
     <group ref={group} {...props} dispose={null}>
       <group name="Scene">

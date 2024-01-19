@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import words from '../assets/words.json'
 
 const MainMenu = ({setSelection, options, setOptions, maps, setMap}) => {
@@ -48,9 +48,14 @@ const MainMenu = ({setSelection, options, setOptions, maps, setMap}) => {
     newOptions.wordsList = currentWordsList
     setOptions(newOptions)
   }
+
+  const playMusic = () => {
+    const audio = document.getElementById('music')
+    audio.play()
+  }
   
   return (
-    <div className="main-menu">
+    <div className="main-menu" onClick={playMusic}>
       <h1 className="title">Resident Typo</h1>
       {showOption==0 &&
         <div>
@@ -112,6 +117,13 @@ const MainMenu = ({setSelection, options, setOptions, maps, setMap}) => {
           </button>
         </div>
       }
+
+      <audio 
+        id="music"
+        src='/scary-piano.wav'
+        loop
+        autoPlay
+      />
 
     </div>
   )

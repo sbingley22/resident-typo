@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { useFrame, useThree } from "@react-three/fiber"
+import { PositionalAudio } from '@react-three/drei'
 import * as THREE from 'three'
 
 import Box from './Box'
@@ -16,6 +17,7 @@ import { BrickWall } from './models/Brick-wall'
 import { Barrel } from './models/Barrel'
 import { Chair } from './models/Chair'
 import { Desk } from './models/Desk'
+
 
 const Map = ({ map, options, setSelection }) => {
   const pointLights = []
@@ -291,6 +293,7 @@ const Map = ({ map, options, setSelection }) => {
     updateDynamicGrid()
   })
   
+  const audioRef = useRef()
   //console.log("Map rerender")
   return (
     <>
@@ -301,6 +304,20 @@ const Map = ({ map, options, setSelection }) => {
       {spotlightRefs.current.map((spotlight, index) => (
         <primitive key={index} object={spotlight} />
       ))}
+
+      <mesh 
+        geometry={threeBox}
+        position={[0,0,0]}
+      >
+        <meshStandardMaterial />
+        <PositionalAudio 
+          ref={audioRef} 
+          url='/creepy-music2.wav' 
+          distance={1} 
+          volume={1}
+          loop 
+        />
+      </mesh>
 
       <Player 
         position={playerPos}

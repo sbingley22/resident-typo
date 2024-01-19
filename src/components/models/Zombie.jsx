@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react'
 import { useGLTF, useAnimations } from '@react-three/drei'
 import { useSkinnedMeshClone } from './SkinnedMeshClone'
+import { useFrame } from '@react-three/fiber'
 
 export function Zombie(props) {
   const group = useRef()
@@ -10,18 +11,20 @@ export function Zombie(props) {
   // Custom hook useSkinnedMeshClone allows a skinnedMesh with primitives to be reused. Without out this only one mesh will be displayed
   const {scene, materials, animations, nodes} = useSkinnedMeshClone("/zombiegirl-1.glb")
   const { actions } = useAnimations(animations, group)
-
   //console.log(actions)
 
   // Change animation
-  useEffect(() => {
-      // Change Animation
-      actions[props.animName].reset().fadeIn(0.5).play()
+  const animation = useRef(props.animName.current)
+  useFrame( (state, delta) => {
+    //console.log(props.animName.current, animation.current)
+    if (animation.current != props.animName.current) {
+      actions[animation.current].fadeOut(0.5)
+      actions[props.animName.current].reset().fadeIn(0.5).play()
+      animation.current = (props.animName.current)
+    }
+  })
 
-      // In clean-up fade it out
-      return () => actions[props.animName].fadeOut(0.5)
-  }, [props.animName, actions])
-
+  //console.log("Zombie Model")
   return (
     <group ref={group} {...props} dispose={null}>
       <group name="Scene">
