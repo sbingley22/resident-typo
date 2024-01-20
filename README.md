@@ -7,3 +7,4 @@ Built using react three fiber etc. All assets were made using blender and substa
 Use WASD to move. Space to switch to typing mode. Use the ` key to switch weapons. Run up to ammo barrels to refill your ammo. Mistype and you will miss your shot!
 
 Live Link:
+https://sbingley22-resident-typo.netlify.app/
