@@ -19,8 +19,11 @@ const MainMenu = ({setSelection, options, setOptions, maps, setMap}) => {
     setShowOption(1)
 
     //for testing only!
-    mapClicked(maps[1])
-    difficultyClicked(0)
+    //mapClicked(maps[1])
+    //difficultyClicked(0)
+  }
+  const howToPlayClicked = () => {
+    setShowOption(3)
   }
   const quitClicked = () => {
     console.log("Quiting")
@@ -52,6 +55,7 @@ const MainMenu = ({setSelection, options, setOptions, maps, setMap}) => {
   const playMusic = () => {
     const audio = document.getElementById('music')
     audio.play()
+    audio.volume = 0.25
   }
   
   return (
@@ -61,6 +65,9 @@ const MainMenu = ({setSelection, options, setOptions, maps, setMap}) => {
         <div>
           <button onClick={()=>playClicked()} >
             Play
+          </button>
+          <button onClick={()=>howToPlayClicked()} >
+            How to Play
           </button>
           <button onClick={()=>optionsClicked()} >
             Options
@@ -91,6 +98,22 @@ const MainMenu = ({setSelection, options, setOptions, maps, setMap}) => {
           </button>
           <button onClick={()=>difficultyClicked(1)} >
             Normal Mode
+          </button>
+        </div>
+      }
+
+      {showOption==3 &&
+        <div>
+          <h3>How to play</h3>
+          <p>Use space bar to switch between movement and typing mode</p>
+          <p>In movement mode WASD moves your character</p>
+          <p>The ` key switches weapons</p>
+          <p>Switch to type mode to shoot at zombies</p>
+          <p>Watch your ammo, misspellings cause missed shots</p>
+          <p>The desert eagle will drop zombies in one shot</p>
+          <p>If you run out of ammo, run up to an ammo barrel</p>
+          <button onClick={()=>returnClicked()} >
+            Return to menu
           </button>
         </div>
       }

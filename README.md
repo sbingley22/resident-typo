@@ -1,8 +1,9 @@
-# React + Vite
+# Resident Typo
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A sort of resident evil typing of the dead game where you must survive wave after wave of zombie hoards.
 
-Currently, two official plugins are available:
+Built using react three fiber etc. All assets were made using blender and substance painter.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Use WASD to move. Space to switch to typing mode. Use the ` key to switch weapons. Run up to ammo barrels to refill your ammo. Mistype and you will miss your shot!
+
+Live Link:

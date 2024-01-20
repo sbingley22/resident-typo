@@ -1,6 +1,6 @@
 import { useFrame, useThree } from "@react-three/fiber"
 import { useRef, useState } from "react"
-import { useKeyboardControls } from "@react-three/drei"
+import { useKeyboardControls, PositionalAudio } from "@react-three/drei"
 import * as THREE from "three"
 import usePlayerStore from "./stores/PlayerStore"
 import { Jill } from "./models/Jill"
@@ -30,6 +30,9 @@ const Player = ({ position, grid, gridSize, options, setSelection, barrels }) =>
 
   const modekeyHeld = useRef(false)
   const inventoryKeyHeld = useRef(false)
+
+  const audioGunShotRef = useRef()
+  const audioHurtRef = useRef()
 
   const playerStore = usePlayerStore()
   const setPlayerStore = (attribute, value) => {
@@ -105,6 +108,12 @@ const Player = ({ position, grid, gridSize, options, setSelection, barrels }) =>
     if (animName === "Pistol Fire" && name !== "Pistol Fire") return
     if (animName === "Take Damage" && name !== "Take Damage") return
     animName.current = name
+  }
+
+  const playSound = (audioRef) => {
+    if (audioRef.current && !audioRef.current.isPlaying) {
+      audioRef.current.play();
+    }
   }
 
   const rotateTo = (direction) => {
@@ -184,7 +193,7 @@ const Player = ({ position, grid, gridSize, options, setSelection, barrels }) =>
   }
 
   const takeDamage = (amount) => {
-    amount = 1 // TESTING ONLY
+    //amount = 1 // TESTING ONLY
     updateAnimation("Take Damage")
     animTimer.current = 0.2
     const newHealth = playerStore.health - amount
@@ -210,14 +219,17 @@ const Player = ({ position, grid, gridSize, options, setSelection, barrels }) =>
 
       setPlayerStore("actionFlag", "")
       updateAnimation("Pistol Fire")
+      playSound(audioGunShotRef)
       animTimer.current = 0.3
     } else if (actionFlag === "Shot Missed") {
       setPlayerStore("actionFlag", "")
       updateAnimation("Pistol Fire")
+      playSound(audioGunShotRef)
       animTimer.current = 0.3
     } else if (actionFlag === "Take Damage") {
       setPlayerStore("actionFlag", "")
       takeDamage(playerStore.actionValue)
+      playSound(audioHurtRef)
       animTimer.current = 0.6
     }
   }
@@ -380,6 +392,19 @@ const Player = ({ position, grid, gridSize, options, setSelection, barrels }) =>
           animName={animName}
         />
         <ShadowBlob />
+
+        <PositionalAudio 
+          ref={audioGunShotRef} 
+          url='/pistol-gunshot.wav' 
+          distance={25} 
+          loop={false}
+        />
+        <PositionalAudio 
+          ref={audioHurtRef} 
+          url='/f-hurt.ogg' 
+          distance={25} 
+          loop={false}
+        />
       </group>
     </group>
   )

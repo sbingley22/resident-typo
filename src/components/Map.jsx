@@ -38,6 +38,15 @@ const Map = ({ map, options, setSelection }) => {
   
   const staticGrid = useRef(new Pathfinding.Grid(map.size[0], map.size[1]))
 
+  // Set off background music
+  const audioBgmRef = useRef()
+  useEffect(() => {
+    if (audioBgmRef.current) {
+      audioBgmRef.current.play();
+      //audioBgmRef.current.volume = 2.5;
+    }
+  }, []);
+
   const loadMap = () => {
     map.items.forEach( item => {
       if (item.name == "barrel"){
@@ -234,7 +243,7 @@ const Map = ({ map, options, setSelection }) => {
 
   const grid = useRef(staticGrid.current)
   const enemiesRef = useRef(null)
-  const spawnCount = useRef(2)
+  const spawnCount = useRef(19)
   const spawnTimings = useRef([1,3, 15,3,3, 20,1,1,1, 20,1,1,1,1, 15,1,1,1,1])
   const spawnTimer = useRef(spawnTimings.current[0])
   const spawnIndex = useRef(0)
@@ -293,7 +302,6 @@ const Map = ({ map, options, setSelection }) => {
     updateDynamicGrid()
   })
   
-  const audioRef = useRef()
   //console.log("Map rerender")
   return (
     <>
@@ -307,14 +315,13 @@ const Map = ({ map, options, setSelection }) => {
 
       <mesh 
         geometry={threeBox}
-        position={[0,0,0]}
+        position={[0,30,0]}
       >
         <meshStandardMaterial />
         <PositionalAudio 
-          ref={audioRef} 
+          ref={audioBgmRef} 
           url='/creepy-music2.wav' 
-          distance={1} 
-          volume={1}
+          distance={500} 
           loop 
         />
       </mesh>

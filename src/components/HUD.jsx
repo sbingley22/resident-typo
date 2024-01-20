@@ -49,6 +49,9 @@ const HUD = () => {
 
       if (weapons[currentWeapon].ammo <= 0) {
         // Play click noise
+        const audio = document.getElementById('emptyGunAudio')
+        audio.play()
+        audio.volume = 0.95
         return
       }
       
@@ -116,14 +119,14 @@ const HUD = () => {
   //console.log("HUD rerender")
   return (
     <div className="HUD">
-      <div className="top-left">
+      <div className="bottom-left">
         <h6>Health: {health}</h6>
       </div>
-      <div className="top-right">
+      <div className="bottom-right">
         <h6>Mode: {mode}</h6>
         <h6>{currentWeapon}: {weapons[currentWeapon].ammo}</h6>
       </div>
-      <div className="bottom-right">
+      <div className="top-right">
         <input ref={inputRef} type="text" onChange={typing} value="" />
       </div>
 
@@ -146,6 +149,12 @@ const HUD = () => {
           ))}
         </div>
       }
+
+      <audio 
+        id="emptyGunAudio"
+        src='/Gun_Cocking.wav'
+        loop={false}
+      />
     </div>   
   )
 }

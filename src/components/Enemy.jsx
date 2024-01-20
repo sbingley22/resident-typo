@@ -1,5 +1,6 @@
 import { useFrame, useThree } from "@react-three/fiber"
-import { useRef, useState } from "react"
+import { PositionalAudio } from "@react-three/drei"
+import { useEffect, useRef, useState } from "react"
 import * as THREE from "three"
 import Pathfinding from 'pathfinding'
 import { Zombie } from "./models/Zombie"
@@ -18,7 +19,16 @@ const Enemy = ({ index, position, grid, gridSize, options }) => {
   const attackTimer = useRef(null)
   const savedPath = useRef(null)
   const pathFrames = useRef(Math.round(Math.random()*60))
-  const baseSpeed = options.difficulty == 0 ? 1 : 2
+  const baseSpeed = options.difficulty == 0 ? 0.35 : 1
+  
+  const audioGrowlRef = useRef()
+  const audioHurtRef = useRef()
+
+  useEffect(()=>{
+    if (audioGrowlRef.current){
+      audioGrowlRef.current.play()
+    }
+  }, [])
 
   const playerStore = usePlayerStore()
   const setPlayerStore = (attribute, value) => {
@@ -168,6 +178,12 @@ const Enemy = ({ index, position, grid, gridSize, options }) => {
     animName.current = name
   }
 
+  const playSound = (audioRef) => {
+    if (audioRef.current && !audioRef.current.isPlaying) {
+      audioRef.current.play();
+    }
+  }
+
   // Having these variables outside useFrame helps garbage collection
   const targetPosition = new THREE.Vector3()
   const targetRotation = new THREE.Quaternion()
@@ -198,6 +214,7 @@ const Enemy = ({ index, position, grid, gridSize, options }) => {
       ref.current.actionFlag = ""
       ref.current.health -= actionValue
       attackTimer.current = null
+      playSound(audioHurtRef)
       
       if (ref.current.health <= 0) {
         // target killed
@@ -247,6 +264,19 @@ const Enemy = ({ index, position, grid, gridSize, options }) => {
           />
         }
         <ShadowBlob offset={0.001 * index} />
+
+        <PositionalAudio 
+          ref={audioGrowlRef} 
+          url='/zombie-growl2.wav' 
+          distance={5} 
+          loop={true}
+        />
+        <PositionalAudio 
+          ref={audioHurtRef} 
+          url='/blood-splat.wav' 
+          distance={25} 
+          loop={false}
+        />
       </group>
     </group>
   )
