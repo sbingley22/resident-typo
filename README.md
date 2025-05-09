@@ -8,3 +8,5 @@ Use WASD to move. Space to switch to typing mode. Use the ` key to switch weapon
 
 Live Link:
 https://sbingley22-resident-typo.netlify.app/
+
+![screenshot](./screenshot.png)
